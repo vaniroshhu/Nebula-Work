@@ -1,0 +1,5042 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>Artificial Intelligence Foundations | MCA & CS Course Portal</title>
+  <meta name="description" content="Master the core foundations of Artificial Intelligence. Access course modules, lecture notes, practice quizzes, and collaborate in the discussion forum. Suitable for MCA and Computer Science students.">
+  <meta name="keywords" content="Artificial Intelligence, AI Foundations, MCA, Computer Science, State Space Search, Intelligent Agents, Machine Learning, Ethics in AI, Course Portal">
+  <meta name="author" content="Department of Computer Science">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <style>
+/* styles.css - Custom stylesheet for Artificial Intelligence Foundations */
+
+/* ----------------------------------------------------
+   1. Design System & CSS Custom Properties
+---------------------------------------------------- */
+:root {
+  /* Colors - Light Theme default */
+  --primary-color: #0f2027;
+  --primary-light: #203a43;
+  --primary-dark: #070e11;
+  --primary-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  --accent-color: #00f2fe;
+  --accent-secondary: #4facfe;
+  --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  --background-color: #f8fafc;
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-border: rgba(226, 232, 240, 0.8);
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --text-light: #f8fafc;
+  
+  --success-color: #10b981;
+  --success-bg: rgba(16, 185, 129, 0.1);
+  --error-color: #ef4444;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --warning-color: #f59e0b;
+
+  /* Fonts */
+  --font-title: 'Outfit', 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'Fira Code', monospace;
+  
+  /* Sizing adjustments (scaled by JS actions) */
+  --base-font-size: 16px;
+  
+  /* Layout Standards */
+  --border-radius: 12px;
+  --border-radius-lg: 20px;
+  --border-radius-sm: 6px;
+  
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  --shadow-lg: 0 10px 25px -5px rgba(0,0,0,0.06), 0 8px 10px -6px rgba(0,0,0,0.04);
+}
+
+/* Dark Theme overrides */
+[data-theme="dark"] {
+  --primary-color: #0b0f19;
+  --primary-light: #172237;
+  --primary-dark: #03050a;
+  --primary-gradient: linear-gradient(135deg, #0b0f19 0%, #16223f 100%);
+  --background-color: #07090e;
+  --card-bg: rgba(18, 25, 41, 0.8);
+  --card-border: rgba(255, 255, 255, 0.06);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-light: #ffffff;
+  
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.2);
+  --shadow-md: 0 6px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+/* High Contrast mode overrides */
+.high-contrast-mode {
+  --primary-color: #000000 !important;
+  --primary-light: #000000 !important;
+  --primary-dark: #000000 !important;
+  --primary-gradient: none !important;
+  --accent-color: #ffff00 !important; /* High contrast yellow */
+  --accent-secondary: #00ffff !important; /* High contrast cyan */
+  --accent-gradient: none !important;
+  --background-color: #000000 !important;
+  --card-bg: #000000 !important;
+  --card-border: #ffffff !important;
+  --text-primary: #ffffff !important;
+  --text-secondary: #ffff00 !important;
+  --text-light: #ffffff !important;
+  --success-color: #00ff00 !important;
+  --success-bg: #000000 !important;
+  --error-color: #ff0000 !important;
+  --error-bg: #000000 !important;
+  --shadow-sm: none !important;
+  --shadow-md: none !important;
+  --shadow-lg: none !important;
+}
+
+/* Font scale variables mapped to body */
+.font-small { --base-font-size: 14px; }
+.font-medium { --base-font-size: 16px; }
+.font-large { --base-font-size: 18px; }
+.font-largest { --base-font-size: 20px; }
+
+/* ----------------------------------------------------
+   2. Reset & Standard Elements
+---------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--base-font-size);
+  color: var(--text-primary);
+  background-color: var(--background-color);
+  line-height: 1.6;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  padding-top: 110px; /* Accounts for fixed navbar and top banner */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 0.5em;
+}
+
+a {
+  color: var(--accent-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Utility Containers */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-gradient {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Grid Layouts */
+.grid {
+  display: grid;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-5 { grid-template-columns: repeat(5, 1fr); }
+
+@media (max-width: 1024px) {
+  .grid-5 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .grid-3, .grid-5 { grid-template-columns: repeat(2, 1fr); }
+  .grid-2, .grid-4 { grid-template-columns: 1fr; }
+}
+@media (max-width: 576px) {
+  .grid-3, .grid-5 { grid-template-columns: 1fr; }
+}
+
+/* Dividers & Borders */
+.divider {
+  border: 0;
+  height: 1px;
+  background: var(--card-border);
+  margin: 30px 0;
+}
+
+/* ----------------------------------------------------
+   3. Theme-Specific Elements (Buttons, Cards, Badges)
+---------------------------------------------------- */
+/* Premium Glass Card */
+.card-glass {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(0, 242, 254, 0.4);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border-radius: var(--border-radius-sm);
+  border: none;
+  transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--primary-gradient);
+  color: var(--text-light);
+  box-shadow: 0 4px 14px rgba(15, 32, 39, 0.2);
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1b3541 0%, #2e515d 100%);
+  box-shadow: 0 6px 18px rgba(15, 32, 39, 0.3);
+}
+
+.btn-secondary {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+}
+.btn-secondary:hover {
+  background: var(--background-color);
+  border-color: var(--text-secondary);
+}
+
+.btn-success {
+  background: var(--success-color);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+.btn-success:hover {
+  background: #0d9488;
+}
+
+.btn-lg {
+  padding: 14px 28px;
+  font-size: 1.1em;
+  border-radius: var(--border-radius);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.85em;
+  border-radius: var(--border-radius-sm);
+}
+
+/* Pills & Badges */
+.pill {
+  padding: 6px 14px;
+  border-radius: var(--border-radius-lg);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.pill.active, .pill:hover {
+  background: var(--primary-gradient);
+  color: var(--text-light);
+  border-color: transparent;
+}
+
+/* ----------------------------------------------------
+   4. Header & Navigation (frosted glass)
+---------------------------------------------------- */
+.top-announcement {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--primary-color);
+  color: var(--text-light);
+  font-size: 0.8em;
+  z-index: 1001;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.announcement-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.a11y-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.a11y-label {
+  opacity: 0.8;
+  margin-right: 4px;
+}
+
+.a11y-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-light);
+  padding: 2px 8px;
+  border-radius: var(--border-radius-sm);
+  font-size: 0.9em;
+  font-weight: 600;
+  transition: background var(--transition-fast);
+}
+
+.a11y-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.quick-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-bar-mini {
+  width: 100px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent-gradient);
+  border-radius: 3px;
+  width: 0%;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Main Navigation Header */
+.main-header {
+  position: fixed;
+  top: 32px; /* Placed directly under high top header */
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--card-border);
+  z-index: 1000;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition-normal);
+}
+
+[data-theme="dark"] .main-header {
+  background: rgba(11, 15, 25, 0.8);
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+/* Logo brand styles */
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-link:hover {
+  text-decoration: none;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  background: var(--primary-gradient);
+  color: var(--accent-color);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4em;
+  box-shadow: 0 4px 10px rgba(15, 32, 39, 0.15);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-title {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 1.25em;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.logo-subtitle {
+  font-size: 0.7em;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Search Box in Header */
+.header-search {
+  position: relative;
+  width: 260px;
+}
+
+.header-search input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  font-size: 0.9em;
+  color: var(--text-primary);
+  transition: all var(--transition-normal);
+}
+
+[data-theme="dark"] .header-search input {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.header-search input:focus {
+  background: var(--card-bg);
+  border-color: var(--accent-secondary);
+  width: 320px;
+  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15);
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 0.85em;
+  pointer-events: none;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  display: flex;
+}
+
+/* Nav menu items list */
+.nav-menu {
+  display: flex;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  gap: 6px;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.95em;
+  padding: 8px 16px;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-fast);
+}
+
+.nav-link:hover {
+  text-decoration: none;
+  color: var(--text-primary);
+  background: rgba(0,0,0,0.03);
+}
+
+[data-theme="dark"] .nav-link:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.nav-link.active {
+  color: var(--text-light) !important;
+  background: var(--primary-gradient);
+}
+
+/* Action Toggles */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.theme-btn {
+  width: 38px;
+  height: 38px;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--card-border);
+  border-radius: 50%;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+[data-theme="dark"] .theme-btn {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.theme-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+  transform: rotate(15deg);
+}
+
+.mobile-nav-toggle {
+  display: none;
+  width: 38px;
+  height: 38px;
+  background: none;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  color: var(--text-primary);
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive mobile navigation override */
+@media (max-width: 992px) {
+  .header-search {
+    display: none; /* Hide global search on small displays to save room */
+  }
+  
+  .mobile-nav-toggle {
+    display: flex;
+  }
+  
+  .nav-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--card-border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-normal) ease-in-out;
+  }
+  
+  .nav-menu.open {
+    max-height: 400px;
+  }
+  
+  .nav-list {
+    flex-direction: column;
+    padding: 16px 20px;
+    gap: 8px;
+  }
+  
+  .nav-link {
+    width: 100%;
+  }
+}
+
+/* ----------------------------------------------------
+   5. Global Tab-View Animations & Routing
+---------------------------------------------------- */
+.main-layout {
+  min-height: calc(100vh - 280px);
+  padding-bottom: 60px;
+}
+
+.tab-view {
+  animation: fadeSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ----------------------------------------------------
+   6. View: Home Sections
+---------------------------------------------------- */
+/* Hero Card styling */
+.hero-section {
+  position: relative;
+  padding: 80px 20px;
+  background: var(--primary-gradient);
+  color: var(--text-light);
+  border-radius: var(--border-radius-lg);
+  margin-top: 20px;
+  margin-bottom: 40px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, rgba(79, 172, 254, 0) 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 242, 254, 0.1);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  color: var(--accent-color);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+.hero-title-main {
+  font-size: 3.2em;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.hero-subtitle {
+  font-size: 1.25em;
+  opacity: 0.9;
+  margin-bottom: 36px;
+  font-weight: 400;
+}
+
+.hero-ctas {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+@media (max-width: 576px) {
+  .hero-title-main { font-size: 2.2em; }
+  .hero-subtitle { font-size: 1.1em; }
+  .hero-ctas { flex-direction: column; }
+}
+
+/* Neural Network Illustration in Hero */
+.hero-illustration {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+.network-node {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-color);
+}
+.node-1 { top: 20%; left: 15%; }
+.node-2 { top: 70%; left: 80%; }
+.node-3 { top: 40%; left: 85%; }
+
+.network-line {
+  position: absolute;
+  background: linear-gradient(90deg, var(--accent-color), transparent);
+  height: 1px;
+}
+.line-1 { top: 20%; left: 15%; width: 250px; transform: rotate(15deg); }
+.line-2 { top: 70%; left: 50%; width: 300px; transform: rotate(-10deg); }
+
+/* Statistics Blocks */
+.statistics-section {
+  padding: 30px;
+  margin-top: -20px;
+  z-index: 5;
+  position: relative;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-icon {
+  font-size: 2em;
+  color: var(--accent-secondary);
+  margin-bottom: 12px;
+}
+
+.stat-number {
+  font-family: var(--font-title);
+  font-size: 2.4em;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Sections Standards */
+.section-title {
+  font-size: 2.2em;
+  margin-top: 60px;
+  margin-bottom: 10px;
+}
+
+.section-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.1em;
+  max-width: 600px;
+  margin: 0 auto 40px auto;
+}
+
+.about-card-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background: rgba(79, 172, 254, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8em;
+  margin: 0 auto 20px auto;
+}
+
+/* Outcomes Grid */
+.outcome-card {
+  padding: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.outcome-icon-box {
+  font-size: 1.6em;
+  color: var(--accent-secondary);
+  margin-bottom: 14px;
+}
+
+.outcome-card h4 {
+  font-size: 0.95em;
+  font-weight: 700;
+  margin-bottom: 0;
+  color: var(--text-primary);
+}
+
+/* Applications Cards */
+.app-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app-icon {
+  font-size: 2em;
+  color: var(--accent-secondary);
+  margin-bottom: 18px;
+}
+
+.app-card h3 {
+  font-size: 1.3em;
+  margin-bottom: 10px;
+}
+
+.app-card p {
+  font-size: 0.92em;
+  color: var(--text-secondary);
+  flex-grow: 1;
+  margin-bottom: 16px;
+}
+
+.app-stat {
+  display: inline-flex;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--accent-secondary);
+  background: rgba(79, 172, 254, 0.1);
+  padding: 4px 10px;
+  border-radius: var(--border-radius-sm);
+  align-self: flex-start;
+}
+
+/* Books Section Cover */
+.book-card {
+  display: flex;
+  gap: 24px;
+}
+
+.book-cover {
+  width: 130px;
+  height: 190px;
+  border-radius: 8px;
+  padding: 16px;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-md);
+  flex-shrink: 0;
+}
+
+.bc-title {
+  font-family: var(--font-title);
+  font-size: 0.9em;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.bc-footer {
+  font-size: 0.65em;
+  opacity: 0.8;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.book-details h3 {
+  font-size: 1.25em;
+  margin-bottom: 4px;
+}
+
+.book-author {
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.book-desc {
+  font-size: 0.88em;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+@media (max-width: 576px) {
+  .book-card { flex-direction: column; }
+  .book-cover { margin: 0 auto; }
+}
+
+/* Faculty layout */
+.faculty-card {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.faculty-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--card-border);
+  flex-shrink: 0;
+}
+
+.faculty-desc {
+  display: flex;
+  flex-direction: column;
+}
+
+.faculty-desc h3 {
+  font-size: 1.5em;
+  margin-bottom: 2px;
+}
+
+.faculty-role {
+  font-size: 0.95em;
+  color: var(--accent-secondary);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.faculty-edu {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.faculty-bio {
+  font-size: 0.95em;
+  margin-bottom: 14px;
+}
+
+.faculty-interests {
+  font-size: 0.9em;
+  margin-bottom: 14px;
+}
+
+.faculty-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.85em;
+  color: var(--text-secondary);
+}
+
+.fc-item i {
+  color: var(--accent-secondary);
+  margin-right: 4px;
+}
+
+@media (max-width: 768px) {
+  .faculty-card { flex-direction: column; text-align: center; }
+  .faculty-contacts { justify-content: center; }
+}
+
+/* Testimonials feedback cards */
+.testimonial-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.t-rating {
+  color: var(--warning-color);
+  margin-bottom: 12px;
+}
+
+.testimonial-card p {
+  font-size: 0.95em;
+  font-style: italic;
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+.t-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid var(--card-border);
+  padding-top: 14px;
+}
+
+.t-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.t-name {
+  font-weight: 700;
+  font-size: 0.95em;
+  display: block;
+}
+
+.t-course {
+  font-size: 0.75em;
+  color: var(--text-secondary);
+}
+
+/* FAQ Accordion Elements */
+.faq-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 800px;
+  margin: 0 auto 60px auto;
+}
+
+.faq-item {
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-sm);
+  background: var(--card-bg);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+}
+
+.faq-question-btn {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 16px 20px;
+  font-weight: 600;
+  font-size: 1.05em;
+  color: var(--text-primary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-question-btn i {
+  font-size: 0.8em;
+  transition: transform var(--transition-fast);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 20px;
+  color: var(--text-secondary);
+  font-size: 0.95em;
+  transition: max-height var(--transition-normal) cubic-bezier(0.16, 1, 0.3, 1), padding var(--transition-normal);
+}
+
+.faq-item.open .faq-question-btn i {
+  transform: rotate(180deg);
+}
+
+.faq-item.open .faq-answer {
+  padding-bottom: 20px;
+}
+
+/* ----------------------------------------------------
+   7. View: Modules List Layout
+---------------------------------------------------- */
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 20px;
+}
+
+.view-header h2 {
+  font-size: 1.8em;
+  margin-bottom: 4px;
+}
+
+.view-header p {
+  color: var(--text-secondary);
+  font-size: 1em;
+}
+
+.header-metric-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: 0.92em;
+}
+
+.header-metric-badge i {
+  color: var(--success-color);
+  font-size: 1.1em;
+}
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 900px) {
+  .modules-grid { grid-template-columns: 1fr; }
+}
+
+/* Module Card Structure */
+.module-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.module-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.module-card h3 {
+  font-size: 1.3em;
+  margin-bottom: 4px;
+}
+
+.module-meta-info {
+  display: flex;
+  gap: 12px;
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.module-meta-info span i {
+  margin-right: 4px;
+}
+
+.module-desc {
+  font-size: 0.92em;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+/* Topics checkbox container */
+.module-topics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  border-top: 1px solid var(--card-border);
+  padding-top: 16px;
+}
+
+.topic-item-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.topic-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 2px solid var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 3px;
+  transition: all var(--transition-fast);
+}
+
+.topic-checkbox i {
+  color: #fff;
+  font-size: 0.6em;
+  opacity: 0;
+}
+
+.topic-item-row.completed .topic-checkbox {
+  background: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.topic-item-row.completed .topic-checkbox i {
+  opacity: 1;
+}
+
+.topic-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.topic-title-span {
+  font-size: 0.95em;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: color var(--transition-fast);
+}
+
+.topic-item-row.completed .topic-title-span {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+.topic-desc-span {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Module progress metrics bar */
+.module-progress-section {
+  border-top: 1px solid var(--card-border);
+  padding-top: 14px;
+}
+
+.module-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8em;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.progress-track-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .progress-track-bar {
+  background: rgba(255,255,255,0.05);
+}
+
+.progress-track-fill {
+  height: 100%;
+  background: var(--accent-gradient);
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* ----------------------------------------------------
+   8. View: Download Resources Layout
+---------------------------------------------------- */
+.resources-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filter-pills-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter-label {
+  font-weight: 600;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+}
+
+.filter-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.toolbar-search {
+  position: relative;
+  width: 280px;
+}
+
+.toolbar-search input {
+  width: 100%;
+  padding: 8px 36px 8px 14px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--card-border);
+  background: rgba(0,0,0,0.02);
+  color: var(--text-primary);
+  font-size: 0.9em;
+}
+
+[data-theme="dark"] .toolbar-search input {
+  background: rgba(255,255,255,0.03);
+}
+
+.toolbar-search input:focus {
+  background: var(--card-bg);
+  border-color: var(--accent-secondary);
+}
+
+.toolbar-search i {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  pointer-events: none;
+}
+
+/* Resource Item Card */
+.resource-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.resource-category-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em;
+  margin-bottom: 14px;
+}
+
+/* Categories color codes */
+.color-pdf { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.color-ppt { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.color-docx { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+
+.resource-card h3 {
+  font-size: 1.1em;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.resource-card p {
+  font-size: 0.88em;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.resource-meta-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  font-weight: 500;
+  border-top: 1px solid var(--card-border);
+  padding-top: 14px;
+}
+
+/* Download Progress indicator */
+.download-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.download-progress-fill {
+  height: 100%;
+  background: var(--success-color);
+  width: 0%;
+  transition: width 0.05s linear;
+}
+
+/* ----------------------------------------------------
+   9. View: Interactive Quiz Interface
+---------------------------------------------------- */
+.quiz-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.quiz-card-meta {
+  font-size: 0.8em;
+  color: var(--accent-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.quiz-card h3 {
+  font-size: 1.3em;
+  margin-bottom: 8px;
+}
+
+.quiz-card p {
+  font-size: 0.9em;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+
+.quiz-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85em;
+  color: var(--success-color);
+  font-weight: 600;
+  background: var(--success-bg);
+  padding: 4px 10px;
+  border-radius: var(--border-radius-sm);
+  align-self: flex-start;
+  margin-bottom: 12px;
+}
+
+/* Live quiz layout */
+.quiz-player-container {
+  max-width: 760px;
+  margin: 20px auto;
+  padding: 30px;
+}
+
+.quiz-player-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.quiz-progress-section {
+  margin-bottom: 24px;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+/* Question view styles */
+.question-card {
+  margin-bottom: 24px;
+}
+
+.question-title {
+  font-size: 1.25em;
+  margin-bottom: 18px;
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-btn {
+  width: 100%;
+  text-align: left;
+  padding: 14px 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.option-btn:hover {
+  background: rgba(79, 172, 254, 0.08);
+  border-color: var(--accent-secondary);
+}
+
+.option-btn.selected {
+  background: rgba(79, 172, 254, 0.15);
+  border-color: var(--accent-secondary);
+  font-weight: 600;
+}
+
+.option-btn.correct {
+  background: var(--success-bg);
+  border-color: var(--success-color);
+  color: var(--success-color);
+  font-weight: 600;
+}
+
+.option-btn.wrong {
+  background: var(--error-bg);
+  border-color: var(--error-color);
+  color: var(--error-color);
+  font-weight: 600;
+}
+
+/* Feedback message box */
+.feedback-panel {
+  padding: 18px;
+  border-radius: var(--border-radius-sm);
+  margin-bottom: 24px;
+  animation: fadeSlideIn var(--transition-fast) forwards;
+}
+
+.feedback-panel.correct {
+  background: var(--success-bg);
+  border: 1px solid var(--success-color);
+  color: var(--success-color);
+}
+
+.feedback-panel.wrong {
+  background: var(--error-bg);
+  border: 1px solid var(--error-color);
+  color: var(--error-color);
+}
+
+.feedback-header {
+  font-weight: 700;
+  margin-bottom: 6px;
+  font-size: 0.95em;
+}
+
+.feedback-panel p {
+  font-size: 0.9em;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+.quiz-player-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Quiz completion scoreboard */
+.quiz-results-container {
+  max-width: 580px;
+  margin: 40px auto;
+  padding: 40px;
+}
+
+.results-badge-icon {
+  font-size: 3.5em;
+  color: var(--warning-color);
+  margin-bottom: 16px;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.results-heading {
+  font-size: 1.8em;
+  margin-bottom: 6px;
+}
+
+.results-quiz-name {
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.results-score-box {
+  background: rgba(0,0,0,0.02);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  max-width: 220px;
+  margin: 0 auto 24px auto;
+}
+
+[data-theme="dark"] .results-score-box {
+  background: rgba(255,255,255,0.02);
+}
+
+.results-score-number {
+  font-family: var(--font-title);
+  font-size: 2.8em;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.1;
+}
+
+.results-percentage {
+  font-size: 0.9em;
+  color: var(--accent-secondary);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.results-msg {
+  font-size: 1.05em;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.results-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ----------------------------------------------------
+   10. View: Discussion Forum Layout
+---------------------------------------------------- */
+.forum-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 992px) {
+  .forum-layout { grid-template-columns: 1fr; }
+}
+
+/* Forum Sidebar */
+.forum-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.forum-search-box {
+  position: relative;
+}
+
+.forum-search-box input {
+  width: 100%;
+  padding: 8px 12px 8px 36px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--card-border);
+  background: rgba(0,0,0,0.02);
+  color: var(--text-primary);
+  font-size: 0.9em;
+}
+
+[data-theme="dark"] .forum-search-box input {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.forum-search-box i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-size: 0.85em;
+}
+
+.forum-tag-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.forum-tag-pill {
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  border-radius: var(--border-radius-sm);
+  border: none;
+  background: none;
+  font-size: 0.85em;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.forum-tag-pill:hover {
+  background: rgba(0,0,0,0.02);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .forum-tag-pill:hover {
+  background: rgba(255,255,255,0.02);
+}
+
+.forum-tag-pill.active {
+  background: rgba(79, 172, 254, 0.1);
+  color: var(--accent-secondary);
+  font-weight: 600;
+}
+
+.forum-threads-list-container h4 {
+  font-size: 0.9em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+#forum-threads-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Sidebar Item row */
+.forum-thread-item {
+  padding: 12px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--card-border);
+  cursor: pointer;
+  background: rgba(0,0,0,0.01);
+  transition: all var(--transition-fast);
+}
+
+.forum-thread-item:hover {
+  background: rgba(79, 172, 254, 0.05);
+  border-color: rgba(79, 172, 254, 0.3);
+}
+
+.forum-thread-item.active {
+  background: rgba(79, 172, 254, 0.08);
+  border-color: var(--accent-secondary);
+}
+
+.forum-thread-item h5 {
+  font-size: 0.9em;
+  margin-bottom: 6px;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+
+.thread-item-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75em;
+  color: var(--text-secondary);
+}
+
+/* Detail Panel Thread View */
+.forum-thread-detail {
+  padding: 30px;
+  min-height: 480px;
+}
+
+.forum-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: var(--text-secondary);
+}
+
+.forum-empty-state i {
+  font-size: 3.5em;
+  margin-bottom: 16px;
+  opacity: 0.4;
+}
+
+/* Thread Detail Content Header */
+.thread-detail-header {
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 20px;
+  margin-bottom: 24px;
+}
+
+.thread-meta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.thread-category-badge {
+  font-size: 0.75em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-secondary);
+  background: rgba(79, 172, 254, 0.1);
+  padding: 3px 8px;
+  border-radius: var(--border-radius-sm);
+}
+
+.thread-time {
+  font-size: 0.8em;
+  color: var(--text-secondary);
+}
+
+.thread-title {
+  font-size: 1.5em;
+  margin-bottom: 14px;
+}
+
+.thread-author-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.author-icon {
+  width: 32px;
+  height: 32px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9em;
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .author-icon {
+  background: rgba(255,255,255,0.05);
+}
+
+.author-name {
+  font-size: 0.88em;
+  font-weight: 600;
+}
+
+.thread-body {
+  font-size: 1em;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.thread-voting-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  font-size: 0.88em;
+  color: var(--text-secondary);
+}
+
+.upvote-btn {
+  background: none;
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-sm);
+  padding: 6px 14px;
+  color: var(--text-secondary);
+  font-size: 0.9em;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.upvote-btn:hover {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: var(--success-color);
+  color: var(--success-color);
+}
+
+.upvote-btn.upvoted {
+  background: var(--success-bg);
+  border-color: var(--success-color);
+  color: var(--success-color);
+}
+
+/* Replies / Comments lists */
+.replies-section h4 {
+  font-size: 1.15em;
+  margin-bottom: 16px;
+}
+
+.replies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.reply-card {
+  padding: 16px;
+  border-radius: var(--border-radius-sm);
+  background: rgba(0,0,0,0.01);
+  border: 1px solid var(--card-border);
+}
+
+[data-theme="dark"] .reply-card {
+  background: rgba(255,255,255,0.01);
+}
+
+.reply-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.8em;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.reply-author {
+  color: var(--text-primary);
+}
+
+.reply-content {
+  font-size: 0.92em;
+  color: var(--text-primary);
+}
+
+/* Reply input form formatting */
+.reply-form {
+  border-top: 1px solid var(--card-border);
+  padding-top: 24px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85em;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  color: var(--text-primary);
+  font-size: 0.95em;
+  transition: border-color var(--transition-fast);
+}
+
+.form-control:focus {
+  border-color: var(--accent-secondary);
+}
+
+/* Modal overlays for new thread creations */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn var(--transition-fast) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 600px;
+  padding: 30px;
+  position: relative;
+  animation: scaleUp var(--transition-normal) cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.modal-header h3 {
+  font-size: 1.25em;
+  margin-bottom: 0;
+}
+
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  color: var(--text-secondary);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* ----------------------------------------------------
+   11. View: Student Analytics Dashboard
+---------------------------------------------------- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr 340px;
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid { grid-template-columns: 1fr; }
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Profile overview card */
+.profile-card {
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--primary-gradient);
+  color: var(--accent-color);
+  font-size: 2.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.profile-info h3 {
+  font-size: 1.4em;
+  margin-bottom: 2px;
+}
+
+.profile-role {
+  font-size: 0.85em;
+  color: var(--accent-secondary);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.profile-id {
+  font-family: var(--font-mono);
+  font-size: 0.75em;
+  background: rgba(0,0,0,0.04);
+  padding: 3px 8px;
+  border-radius: var(--border-radius-sm);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .profile-id {
+  background: rgba(255,255,255,0.04);
+}
+
+.profile-footer {
+  margin-top: 20px;
+  border-top: 1px solid var(--card-border);
+  padding-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78em;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* List metrics details styling */
+.summary-metrics-card h3 {
+  font-size: 1.1em;
+  margin-bottom: 16px;
+}
+
+.metrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+  border-bottom: 1px dotted var(--card-border);
+  padding-bottom: 8px;
+}
+
+.metric-item:last-child {
+  border-bottom: none;
+}
+
+.mi-label {
+  color: var(--text-secondary);
+}
+
+.mi-value {
+  font-weight: 600;
+}
+
+/* Radial progress chart wrapper */
+.progress-overview-card h3 {
+  font-size: 1.15em;
+  margin-bottom: 18px;
+}
+
+.radial-progress-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.radial-progress {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.progress-ring {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.progress-ring-bg {
+  fill: none;
+  stroke: rgba(0,0,0,0.04);
+  stroke-width: 8;
+}
+
+[data-theme="dark"] .progress-ring-bg {
+  stroke: rgba(255,255,255,0.04);
+}
+
+.progress-ring-fill {
+  fill: none;
+  stroke: var(--accent-color);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.radial-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+}
+
+#db-progress-val {
+  font-family: var(--font-title);
+  font-size: 1.4em;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.radial-text .sub-label {
+  font-size: 0.6em;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.radial-stats-legend {
+  display: flex;
+  flex-direction: column;
+}
+
+.legend-title {
+  font-weight: 700;
+  font-size: 1.05em;
+  margin-bottom: 4px;
+}
+
+.radial-stats-legend p {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Quiz metrics progress bars */
+.quiz-bars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quiz-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.qbi-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82em;
+  font-weight: 600;
+}
+
+.qbi-name {
+  color: var(--text-primary);
+}
+
+.qbi-score {
+  color: var(--accent-secondary);
+}
+
+.qbi-score.completed {
+  color: var(--success-color);
+}
+
+.qbi-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(0,0,0,0.04);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .qbi-track {
+  background: rgba(255,255,255,0.04);
+}
+
+.qbi-fill {
+  height: 100%;
+  background: var(--accent-gradient);
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.4s ease;
+}
+
+.qbi-fill.success {
+  background: var(--success-color);
+}
+
+/* Badges showcase panel */
+.badges-card {
+  padding: 24px;
+}
+
+.badges-card h3 {
+  font-size: 1.15em;
+  margin-bottom: 6px;
+}
+
+.badges-subtitle {
+  font-size: 0.85em;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.badges-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Single badge layout row */
+.badge-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--card-border);
+  background: rgba(0,0,0,0.01);
+  opacity: 0.5;
+  filter: grayscale(100%);
+  transition: all var(--transition-normal);
+}
+
+[data-theme="dark"] .badge-row {
+  background: rgba(255,255,255,0.01);
+}
+
+.badge-row.unlocked {
+  opacity: 1;
+  filter: grayscale(0%);
+  background: var(--card-bg);
+  border-color: rgba(0, 242, 254, 0.25);
+  box-shadow: 0 4px 10px rgba(0, 242, 254, 0.08);
+}
+
+.badge-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.05);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25em;
+  flex-shrink: 0;
+  transition: all var(--transition-normal);
+}
+
+.badge-row.unlocked .badge-icon-wrap {
+  background: var(--accent-gradient);
+  color: var(--text-light);
+  box-shadow: 0 0 10px rgba(79, 172, 254, 0.4);
+}
+
+.badge-info-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.badge-title {
+  font-size: 0.88em;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.badge-desc {
+  font-size: 0.78em;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* ----------------------------------------------------
+   12. Footer
+---------------------------------------------------- */
+.course-footer {
+  background: var(--primary-color);
+  color: var(--text-light);
+  padding: 60px 0 20px 0;
+  border-top: 4px solid var(--accent-secondary);
+}
+
+.footer-container {
+  margin-bottom: 40px;
+}
+
+.footer-logo {
+  font-size: 1.5em;
+  font-weight: 800;
+  margin-bottom: 14px;
+  color: #fff;
+}
+
+.footer-info p {
+  font-size: 0.88em;
+  opacity: 0.7;
+}
+
+.footer-links h4, .footer-contacts h4 {
+  font-size: 1em;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.footer-links ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links ul li a {
+  color: var(--text-light);
+  opacity: 0.7;
+  font-size: 0.9em;
+  transition: opacity var(--transition-fast);
+}
+
+.footer-links ul li a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.footer-contacts p {
+  font-size: 0.9em;
+  opacity: 0.7;
+  margin-bottom: 12px;
+}
+
+.footer-contacts a {
+  color: var(--accent-color);
+}
+
+.social-icons {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.social-icons a {
+  width: 36px;
+  height: 36px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+  font-size: 1em;
+  transition: all var(--transition-fast);
+}
+
+.social-icons a:hover {
+  background: var(--accent-gradient);
+  color: var(--text-light);
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 20px;
+}
+
+.footer-bottom p {
+  font-size: 0.8em;
+  opacity: 0.5;
+}
+
+</style>
+</head>
+<body>
+
+  <!-- Announcement Bar (Accessibility and Theme Controls) -->
+  <div class="top-announcement" role="complementary" aria-label="Accessibility controls">
+    <div class="announcement-content container">
+      <div class="a11y-controls">
+        <span class="a11y-label"><i class="fa-solid fa-universal-access"></i> Accessibility:</span>
+        <button id="btn-zoom-out" class="a11y-btn" aria-label="Decrease text size">A-</button>
+        <button id="btn-zoom-reset" class="a11y-btn" aria-label="Reset text size">100%</button>
+        <button id="btn-zoom-in" class="a11y-btn" aria-label="Increase text size">A+</button>
+        <button id="btn-high-contrast" class="a11y-btn" aria-label="Toggle High Contrast Mode"><i class="fa-solid fa-circle-half-stroke"></i> Contrast</button>
+      </div>
+      <div class="quick-status">
+        <span id="header-progress-text">Course Progress: 0%</span>
+        <div class="progress-bar-mini">
+          <div id="header-progress-bar" class="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header class="main-header">
+    <div class="header-container container">
+      <a href="#" class="logo-link" id="logo-nav" aria-label="AI Foundations Homepage">
+        <div class="logo-icon">
+          <i class="fa-solid fa-brain animate-pulse"></i>
+        </div>
+        <div class="logo-text">
+          <span class="logo-title">AI Foundations</span>
+          <span class="logo-subtitle">MCA & CS Courseware</span>
+        </div>
+      </a>
+
+      <!-- Desktop Search Bar -->
+      <div class="header-search">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="global-search-input" placeholder="Search modules, files, FAQs..." aria-label="Search course content">
+        <button id="global-search-clear" class="search-clear-btn" aria-label="Clear search" style="display:none;"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="nav-menu" id="nav-menu-bar" role="navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#" class="nav-link active" data-tab="home" id="nav-home"><i class="fa-solid fa-house"></i> Home</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" data-tab="modules" id="nav-modules"><i class="fa-solid fa-book-open"></i> Modules</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" data-tab="resources" id="nav-resources"><i class="fa-solid fa-cloud-arrow-down"></i> Resources</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" data-tab="quizzes" id="nav-quizzes"><i class="fa-solid fa-square-poll-horizontal"></i> Quizzes</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" data-tab="forum" id="nav-forum"><i class="fa-solid fa-comments"></i> Forum</a></li>
+          <li class="nav-item"><a href="#" class="nav-link" data-tab="dashboard" id="nav-dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</a></li>
+        </ul>
+      </nav>
+
+      <!-- Theme & Profile Controls -->
+      <div class="header-actions">
+        <button id="theme-toggle-btn" class="theme-btn" aria-label="Toggle theme color">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="mobile-nav-toggle" id="mobile-toggle" aria-expanded="false" aria-controls="nav-menu-bar" aria-label="Toggle navigation menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Views Container -->
+  <main id="main-content" class="main-layout container">
+
+    <!-- SEARCH RESULTS SECTION (Visible overlay when search queries are active) -->
+    <section id="search-results-section" class="search-results-overlay card-glass" style="display: none;">
+      <div class="search-results-header">
+        <h2><i class="fa-solid fa-magnifying-glass text-gradient"></i> Search Results (<span id="search-match-count">0</span> matches)</h2>
+        <button id="close-search-results" class="btn btn-secondary btn-sm" aria-label="Close search"><i class="fa-solid fa-xmark"></i> Close</button>
+      </div>
+      <div id="search-results-container" class="search-results-grid">
+        <!-- Rendered search hits dynamically -->
+      </div>
+    </section>
+
+    <!-- VIEW 1: HOME -->
+    <section id="view-home" class="tab-view active">
+      
+      <!-- Hero Section -->
+      <section class="hero-section text-center" aria-labelledby="hero-title">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+          <span class="hero-badge"><i class="fa-solid fa-sparkles"></i> Advanced Academic Curriculum</span>
+          <h1 id="hero-title" class="hero-title-main">Artificial Intelligence Foundations</h1>
+          <p class="hero-subtitle">Building the Foundations for Intelligent Systems</p>
+          <div class="hero-ctas">
+            <button class="btn btn-primary btn-lg" id="hero-cta-explore"><i class="fa-solid fa-compass"></i> Explore Course</button>
+            <button class="btn btn-secondary btn-lg" id="hero-cta-learn"><i class="fa-solid fa-play"></i> Start Learning</button>
+            <button class="btn btn-secondary btn-lg" id="hero-cta-about"><i class="fa-solid fa-circle-info"></i> About the Course</button>
+          </div>
+        </div>
+        
+        <!-- Interactive Node Graphic Background -->
+        <div class="hero-illustration">
+          <div class="network-node node-1 animate-pulse"></div>
+          <div class="network-node node-2"></div>
+          <div class="network-node node-3 animate-pulse"></div>
+          <div class="network-line line-1"></div>
+          <div class="network-line line-2"></div>
+        </div>
+      </section>
+
+      <!-- Animated Statistics Counter -->
+      <section class="statistics-section card-glass grid grid-4">
+        <div class="stat-card text-center">
+          <div class="stat-icon"><i class="fa-solid fa-user-graduate"></i></div>
+          <div class="stat-number" data-target="1250">0</div>
+          <div class="stat-label">Students Enrolled</div>
+        </div>
+        <div class="stat-card text-center">
+          <div class="stat-icon"><i class="fa-solid fa-folder-open"></i></div>
+          <div class="stat-number" data-target="6">0</div>
+          <div class="stat-label">Core Modules</div>
+        </div>
+        <div class="stat-card text-center">
+          <div class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="stat-number" data-target="96" data-suffix="%">0</div>
+          <div class="stat-label">Exam Pass Rate</div>
+        </div>
+        <div class="stat-card text-center">
+          <div class="stat-icon"><i class="fa-solid fa-award"></i></div>
+          <div class="stat-number" data-target="850">0</div>
+          <div class="stat-label">Badges Unlocked</div>
+        </div>
+      </section>
+
+      <!-- About the Course -->
+      <section id="about-section" class="about-section" aria-labelledby="about-heading">
+        <h2 id="about-heading" class="section-title text-center">About The Course</h2>
+        <p class="section-subtitle text-center">An essential guide to theoretical modeling and hands-on algorithms for intelligence systems</p>
+        
+        <div class="grid grid-3">
+          <div class="card card-hover text-center">
+            <div class="about-card-icon"><i class="fa-solid fa-brain text-gradient"></i></div>
+            <h3>What is AI?</h3>
+            <p>Artificial Intelligence is the study of agents that receive percepts from the environment and perform actions. It aims to formalize, understand, and construct intelligent entities capable of rational behaviors.</p>
+          </div>
+          <div class="card card-hover text-center">
+            <div class="about-card-icon"><i class="fa-solid fa-earth-americas text-gradient"></i></div>
+            <h3>Importance in Modern Society</h3>
+            <p>From healthcare diagnostics and self-driving cars to generative transformers, AI drives technological transformation. It provides scale, reduces margins of human error, and discovers complex data configurations.</p>
+          </div>
+          <div class="card card-hover text-center">
+            <div class="about-card-icon"><i class="fa-solid fa-briefcase text-gradient"></i></div>
+            <h3>Career Opportunities</h3>
+            <p>Prepares students for advanced specialized career profiles, including AI Research Scientists, Machine Learning Engineers, NLP Researchers, Autonomous Systems Developers, and Data Analysts.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Course Learning Outcomes -->
+      <section class="outcomes-section" aria-labelledby="outcomes-heading">
+        <h2 id="outcomes-heading" class="section-title text-center">Learning Outcomes</h2>
+        <p class="section-subtitle text-center">What you will accomplish by completing this academic program</p>
+        
+        <div class="grid grid-5" id="outcomes-grid">
+          <!-- Populated from data.js -->
+        </div>
+      </section>
+
+      <!-- AI Applications Gallery -->
+      <section class="gallery-section" aria-labelledby="gallery-heading">
+        <h2 id="gallery-heading" class="section-title text-center">AI Applications Showcase</h2>
+        <p class="section-subtitle text-center">How AI models drive transformation across industry domains</p>
+        
+        <div class="grid grid-3" id="applications-grid">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- Recommended Books -->
+      <section class="books-section" aria-labelledby="books-heading">
+        <h2 id="books-heading" class="section-title text-center">Recommended Academic Books</h2>
+        <p class="section-subtitle text-center">Foundational textbooks recommended by the department board</p>
+        
+        <div class="grid grid-2" id="books-grid">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- Faculty Section -->
+      <section class="faculty-section" aria-labelledby="faculty-heading">
+        <h2 id="faculty-heading" class="section-title text-center">Course Instructor</h2>
+        <div id="faculty-container">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- Student Feedback Section -->
+      <section class="testimonials-section" aria-labelledby="testimonials-heading">
+        <h2 id="testimonials-heading" class="section-title text-center">Student Testimonials</h2>
+        <p class="section-subtitle text-center">Feedback from postgraduate MCA students who previously completed this course</p>
+        
+        <div class="grid grid-3" id="testimonials-grid">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- FAQ Accordion Section -->
+      <section class="faq-section" aria-labelledby="faq-heading">
+        <h2 id="faq-heading" class="section-title text-center">Frequently Asked Questions</h2>
+        <p class="section-subtitle text-center">Quick answers to typical doubts regarding syllabus and tests</p>
+        
+        <div class="faq-accordion" id="faq-accordion-container">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+    </section>
+
+    <!-- VIEW 2: MODULES -->
+    <section id="view-modules" class="tab-view" style="display: none;">
+      <div class="view-header">
+        <div>
+          <h2><i class="fa-solid fa-book-open text-gradient"></i> Core Course Modules</h2>
+          <p>Read through each module topic. Check off items as you complete them to track your learning journey.</p>
+        </div>
+        <div class="header-metric-badge card-glass">
+          <i class="fa-solid fa-list-check"></i> Topics Completed: <span id="module-completed-count">0</span> / <span id="module-total-count">0</span>
+        </div>
+      </div>
+      
+      <div id="modules-list-container" class="modules-grid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- VIEW 3: RESOURCES -->
+    <section id="view-resources" class="tab-view" style="display: none;">
+      <div class="view-header">
+        <div>
+          <h2><i class="fa-solid fa-cloud-arrow-down text-gradient"></i> Download Center</h2>
+          <p>Access study guides, slide decks, lab sheets, and past examination papers for offline reading.</p>
+        </div>
+        <div class="header-metric-badge card-glass" id="downloads-header-badge">
+          <i class="fa-solid fa-circle-check"></i> Active Library: <span id="download-count">0</span> Files
+        </div>
+      </div>
+
+      <!-- Resource Filter Options & Actions -->
+      <div class="resources-toolbar card-glass">
+        <div class="filter-pills-container">
+          <span class="filter-label">Filter:</span>
+          <div class="filter-pills" id="resources-filter-pills">
+            <button class="pill active" data-category="All">All</button>
+            <button class="pill" data-category="Lecture Notes">Lecture Notes</button>
+            <button class="pill" data-category="PPT Presentations">PPT Slides</button>
+            <button class="pill" data-category="Lab Manuals">Lab Manuals</button>
+            <button class="pill" data-category="Assignment Sheets">Assignments</button>
+            <button class="pill" data-category="Previous Question Papers">Past Papers</button>
+          </div>
+        </div>
+        <div class="toolbar-search">
+          <input type="text" id="resources-search-input" placeholder="Search files in list..." aria-label="Search resources">
+          <i class="fa-solid fa-search"></i>
+        </div>
+      </div>
+
+      <div id="resources-grid-container" class="grid grid-3">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- VIEW 4: QUIZZES -->
+    <section id="view-quizzes" class="tab-view" style="display: none;">
+      
+      <!-- Quiz Portal Dashboard -->
+      <div id="quiz-dashboard">
+        <div class="view-header">
+          <div>
+            <h2><i class="fa-solid fa-square-poll-horizontal text-gradient"></i> Interactive Quiz Portal</h2>
+            <p>Validate your knowledge of AI subfields, state heuristics, agent formulations, and propositional logic.</p>
+          </div>
+        </div>
+        
+        <div class="grid grid-2" id="quiz-selection-container">
+          <!-- Rendered dynamically from data.js -->
+        </div>
+      </div>
+
+      <!-- Live Quiz Player Interface -->
+      <div id="quiz-player" class="quiz-player-container card-glass" style="display: none;">
+        <div class="quiz-player-header">
+          <h3 id="qp-quiz-title">Quiz Name</h3>
+          <button id="btn-quit-quiz" class="btn btn-secondary btn-sm"><i class="fa-solid fa-arrow-left"></i> Quit Quiz</button>
+        </div>
+
+        <div class="quiz-progress-section">
+          <div class="progress-bar">
+            <div id="qp-progress-fill" class="progress-fill" style="width: 20%"></div>
+          </div>
+          <div class="progress-stats">
+            <span>Question <span id="qp-current-num">1</span> of 5</span>
+            <span id="qp-timer"><i class="fa-regular fa-clock"></i> Time: <span id="qp-time-seconds">00:00</span></span>
+          </div>
+        </div>
+
+        <div id="qp-question-card" class="question-card">
+          <h4 id="qp-question-text" class="question-title">What is the capital of AI?</h4>
+          <div id="qp-options-container" class="options-grid">
+            <!-- Dynamically rendered options buttons -->
+          </div>
+        </div>
+
+        <!-- Correct/Incorrect Feedbacks and Explanations -->
+        <div id="qp-feedback-panel" class="feedback-panel" style="display: none;">
+          <div class="feedback-header">
+            <span id="qp-feedback-status"><i class="fa-solid"></i> Status</span>
+          </div>
+          <p id="qp-explanation-text">Explanation details will render here.</p>
+        </div>
+
+        <div class="quiz-player-actions">
+          <button id="btn-submit-answer" class="btn btn-primary" disabled>Submit Answer</button>
+          <button id="btn-next-question" class="btn btn-primary" style="display: none;">Next Question <i class="fa-solid fa-arrow-right"></i></button>
+          <button id="btn-finish-quiz" class="btn btn-success" style="display: none;">Finish Quiz <i class="fa-solid fa-circle-check"></i></button>
+        </div>
+      </div>
+
+      <!-- Quiz Scoring Report Card -->
+      <div id="quiz-results" class="quiz-results-container text-center card-glass" style="display: none;">
+        <div class="results-badge-icon"><i class="fa-solid fa-trophy"></i></div>
+        <h3 class="results-heading">Quiz Completed!</h3>
+        <p id="qr-quiz-name" class="results-quiz-name">Introduction to AI Quiz</p>
+        
+        <div class="results-score-box">
+          <div class="results-score-number"><span id="qr-score-correct">0</span> / 5</div>
+          <div class="results-percentage" id="qr-percentage">0% Score</div>
+        </div>
+
+        <p id="qr-feedback-msg" class="results-msg">You have unlocked an academic badge!</p>
+
+        <div class="results-actions">
+          <button id="btn-quiz-retry" class="btn btn-secondary"><i class="fa-solid fa-rotate-right"></i> Retry Quiz</button>
+          <button id="btn-quiz-dashboard" class="btn btn-primary"><i class="fa-solid fa-chart-line"></i> View Progress Dashboard</button>
+          <button id="btn-quiz-back" class="btn btn-secondary"><i class="fa-solid fa-list"></i> Select Other Quiz</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- VIEW 5: FORUM -->
+    <section id="view-forum" class="tab-view" style="display: none;">
+      <div class="view-header">
+        <div>
+          <h2><i class="fa-solid fa-comments text-gradient"></i> Discussion Forum</h2>
+          <p>Engage with peers, share implementations, post homework queries, and interact with academic faculty.</p>
+        </div>
+        <button id="btn-create-thread" class="btn btn-primary"><i class="fa-solid fa-plus"></i> New Discussion Thread</button>
+      </div>
+
+      <div class="forum-layout">
+        <!-- Sidebar Lists -->
+        <aside class="forum-sidebar card-glass">
+          <div class="forum-search-box">
+            <input type="text" id="forum-search-input" placeholder="Search discussions..." aria-label="Search forum threads">
+            <i class="fa-solid fa-search"></i>
+          </div>
+          
+          <div class="forum-tags-filter">
+            <h4>Filter by Tag</h4>
+            <div class="forum-tag-pills" id="forum-tag-pills">
+              <button class="forum-tag-pill active" data-tag="All">All Topics</button>
+              <button class="forum-tag-pill" data-tag="Problem Solving">Problem Solving</button>
+              <button class="forum-tag-pill" data-tag="Intelligent Agents">Intelligent Agents</button>
+              <button class="forum-tag-pill" data-tag="Knowledge Representation">Knowledge Representation</button>
+              <button class="forum-tag-pill" data-tag="Machine Learning">Machine Learning</button>
+            </div>
+          </div>
+          
+          <div class="forum-threads-list-container">
+            <h4>Discussions</h4>
+            <div id="forum-threads-list">
+              <!-- Rendered threads dynamically -->
+            </div>
+          </div>
+        </aside>
+
+        <!-- Dynamic Thread Detail -->
+        <article class="forum-thread-detail card-glass" id="forum-detail-panel">
+          <div id="fd-empty-state" class="forum-empty-state text-center">
+            <i class="fa-regular fa-comment-dots"></i>
+            <h3>No Thread Selected</h3>
+            <p>Select a discussion thread from the sidebar list to read comments, view answers, or post a reply.</p>
+          </div>
+
+          <div id="fd-content-state" style="display: none;">
+            <div class="thread-detail-header">
+              <div class="thread-meta-top">
+                <span class="thread-category-badge" id="fd-tag">Problem Solving</span>
+                <span class="thread-time" id="fd-time">4 hours ago</span>
+              </div>
+              <h3 id="fd-title" class="thread-title">Understanding A* Heuristic Consistency</h3>
+              <div class="thread-author-bar">
+                <div class="author-icon"><i class="fa-solid fa-user"></i></div>
+                <div class="author-info">
+                  <span class="author-name" id="fd-author">Amit Patel</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="thread-body" id="fd-body">
+              Thread text content goes here.
+            </div>
+
+            <div class="thread-voting-bar">
+              <button id="btn-upvote-thread" class="upvote-btn" aria-label="Upvote this post">
+                <i class="fa-solid fa-thumbs-up"></i> Upvote (<span id="fd-upvote-count">0</span>)
+              </button>
+              <span id="fd-replies-count"><i class="fa-regular fa-comment"></i> 2 Replies</span>
+            </div>
+
+            <!-- Replies list -->
+            <div class="replies-section">
+              <h4>Replies & Solutions</h4>
+              <div id="fd-replies-list" class="replies-list">
+                <!-- Comments rendered here -->
+              </div>
+
+              <!-- Add comment box -->
+              <form id="forum-reply-form" class="reply-form">
+                <div class="form-group">
+                  <label for="reply-author-input">Your Name (Author):</label>
+                  <input type="text" id="reply-author-input" class="form-control" placeholder="e.g., Jane Doe (MCA Sem 2)" required>
+                </div>
+                <div class="form-group">
+                  <label for="reply-content-input">Post a Reply:</label>
+                  <textarea id="reply-content-input" class="form-control" rows="4" placeholder="Share your knowledge or code implementation details..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Post Reply</button>
+              </form>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- New Thread Modal Form Overlay -->
+      <div id="forum-modal" class="modal-overlay" style="display: none;">
+        <div class="modal-content card-glass">
+          <div class="modal-header">
+            <h3>Create a New Discussion Thread</h3>
+            <button id="btn-modal-close" class="modal-close-btn" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <form id="new-thread-form" class="new-thread-form">
+            <div class="form-group">
+              <label for="nt-author">Your Name:</label>
+              <input type="text" id="nt-author" class="form-control" placeholder="e.g., Amit Patel (MCA Sem 4)" required>
+            </div>
+            <div class="form-group">
+              <label for="nt-title">Topic Title:</label>
+              <input type="text" id="nt-title" class="form-control" placeholder="What is your question or discussion point about?" required>
+            </div>
+            <div class="form-group">
+              <label for="nt-tag">Select Relevant Tag:</label>
+              <select id="nt-tag" class="form-control" required>
+                <option value="Problem Solving">Problem Solving</option>
+                <option value="Intelligent Agents">Intelligent Agents</option>
+                <option value="Knowledge Representation">Knowledge Representation</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="General">General Academic</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="nt-content">Detailed Question:</label>
+              <textarea id="nt-content" class="form-control" rows="6" placeholder="Describe the issue, include code lines, error logs, or mathematical formulations..." required></textarea>
+            </div>
+            <div class="modal-actions">
+              <button type="button" id="btn-modal-cancel" class="btn btn-secondary">Cancel</button>
+              <button type="submit" class="btn btn-primary">Create Thread</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 6: DASHBOARD -->
+    <section id="view-dashboard" class="tab-view" style="display: none;">
+      <div class="view-header">
+        <div>
+          <h2><i class="fa-solid fa-chart-line text-gradient"></i> Student Progress Analytics</h2>
+          <p>Visualize completed modules, review scores, download statistics, and check your academic badges.</p>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- Left: Profile and Key Metrics -->
+        <div class="dashboard-column flex-column">
+          
+          <!-- Student Profile Card -->
+          <div class="card-glass profile-card">
+            <div class="profile-header">
+              <div class="profile-avatar">
+                <i class="fa-solid fa-user-tie"></i>
+              </div>
+              <div class="profile-info">
+                <h3>VANI</h3>
+                <p class="profile-role">MCA / Computer Science Student</p>
+                <span class="profile-id">ID: MCA-2026-8942</span>
+              </div>
+            </div>
+            <div class="profile-footer">
+              <div><strong>Registered:</strong> June 2026</div>
+              <div><strong>Course Status:</strong> Active</div>
+            </div>
+          </div>
+
+          <!-- Academic Performance Overview -->
+          <div class="card-glass summary-metrics-card">
+            <h3>Metrics Overview</h3>
+            <div class="metrics-list">
+              <div class="metric-item">
+                <div class="mi-label">Total Time Expended:</div>
+                <div class="mi-value">14.5 Hours</div>
+              </div>
+              <div class="metric-item">
+                <div class="mi-label">Quizzes Answered:</div>
+                <div class="mi-value"><span id="db-quizzes-count">0</span> / 4</div>
+              </div>
+              <div class="metric-item">
+                <div class="mi-label">Materials Downloaded:</div>
+                <div class="mi-value"><span id="db-downloads-count">0</span> files</div>
+              </div>
+              <div class="metric-item">
+                <div class="mi-label">Forum Activity Index:</div>
+                <div class="mi-value" id="db-forum-activity">Low</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center: Completion Meters & Charts -->
+        <div class="dashboard-column card-glass progress-overview-card">
+          <h3>Progress Breakdown</h3>
+          
+          <div class="radial-progress-container">
+            <div class="radial-progress">
+              <svg viewBox="0 0 100 100" class="progress-ring">
+                <circle class="progress-ring-bg" cx="50" cy="50" r="40" />
+                <circle id="db-radial-bar" class="progress-ring-fill" cx="50" cy="50" r="40" stroke-dasharray="251.2" stroke-dashoffset="251.2" />
+              </svg>
+              <div class="radial-text">
+                <span id="db-progress-val">0%</span>
+                <span class="sub-label">Complete</span>
+              </div>
+            </div>
+            <div class="radial-stats-legend">
+              <div class="legend-title">Course Syllabus Mastery</div>
+              <p>Your overall progress reflects total checkbox clicks across all 6 course modules.</p>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <h3>Quiz Performance Analysis</h3>
+          <div class="quiz-bars-list" id="db-quiz-chart-list">
+            <!-- Quizzes dynamic performance bar charts -->
+          </div>
+        </div>
+
+        <!-- Right: Unlocked Academic Badges -->
+        <div class="dashboard-column card-glass badges-card">
+          <h3>Unlocked Achievements & Badges</h3>
+          <p class="badges-subtitle">Earn academic credentials by completing lecture targets and scoring high in portal quizzes.</p>
+          
+          <div class="badges-grid" id="db-badges-grid">
+            <!-- Render badges dynamically with unlocked states -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="course-footer" role="contentinfo">
+    <div class="footer-container container grid grid-4">
+      <div class="footer-info">
+        <h4 class="footer-logo"><i class="fa-solid fa-brain"></i> AI Foundations</h4>
+        <p>A comprehensive master-level course portal introducing postgraduate students to the core paradigms of Artificial Intelligence and Agent-based System Design.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Syllabus Links</h4>
+        <ul>
+          <li><a href="#" class="footer-tab-trigger" data-tab="modules">Introduction & PEAS</a></li>
+          <li><a href="#" class="footer-tab-trigger" data-tab="modules">State Space Search</a></li>
+          <li><a href="#" class="footer-tab-trigger" data-tab="modules">Propositional Logic</a></li>
+          <li><a href="#" class="footer-tab-trigger" data-tab="modules">Machine Learning</a></li>
+          <li><a href="#" class="footer-tab-trigger" data-tab="modules">Explainable Ethics</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Resources & Testing</h4>
+        <ul>
+          <li><a href="#" class="footer-tab-trigger" data-tab="resources">Download Center</a></li>
+          <li><a href="#" class="footer-tab-trigger" data-tab="quizzes">Interactive Quizzes</a></li>
+          <li><a href="#" class="footer-tab-trigger" data-tab="dashboard">Performance Dashboard</a></li>
+          <li><a href="#" class="footer-tab-trigger" data-tab="forum">Student Forum</a></li>
+        </ul>
+      </div>
+      <div class="footer-contacts">
+        <h4>Department Contact</h4>
+        <p><i class="fa-solid fa-building"></i> Lab 202, CS Division, Academic Block III</p>
+        <p><i class="fa-solid fa-envelope"></i> <a href="mailto:ai.courseware@university.edu">ai.courseware@university.edu</a></p>
+        <div class="social-icons">
+          <a href="#" aria-label="Department GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="#" aria-label="Department YouTube Channel"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="Department Research Network"><i class="fa-brands fa-researchgate"></i></a>
+          <a href="#" aria-label="Department LinkedIn Page"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom text-center">
+      <p>&copy; 2026 Department of Computer Science & Applications. All Rights Reserved. Designed for MCA & CS Curriculums.</p>
+    </div>
+  </footer>
+
+  <!-- App State, Data and Logical Modules -->
+  
+  
+  
+<script>
+
+// ==========================================
+//  1. ACADEMIC COURSE DATA (from data.js)
+// ==========================================
+// js/data.js - Academic Course Data for AI Foundations
+
+const courseModules = [
+  {
+    id: 1,
+    title: "Module 1: Introduction to AI",
+    description: "Explore the origin, goals, and foundational concepts of Artificial Intelligence, focusing on rational agents and performance measures.",
+    topics: [
+      { name: "History of AI", detail: "Tracing the path from Turing's test (1950) and the Dartmouth Workshop (1956) through AI Winters to modern generative AI systems." },
+      { name: "AI Applications", detail: "Real-world impact across finance, medical diagnostics, robotics, natural language processing, and automation." },
+      { name: "Rational Agents", detail: "The concept of acting rationally. Designing agents that select actions to maximize expected performance based on percept history." },
+      { name: "PEAS Framework", detail: "Specifying the Performance measure, Environment, Actuators, and Sensors for an intelligent agent design." }
+    ],
+    duration: "4 Hours",
+    level: "Beginner"
+  },
+  {
+    id: 2,
+    title: "Module 2: Intelligent Agents",
+    description: "Analyze how agents interact with their environments, different environment categories, and structural agent architectures.",
+    topics: [
+      { name: "Agent Architectures", detail: "Understanding Simple Reflex, Model-based Reflex, Goal-based, Utility-based, and Learning Agent structures." },
+      { name: "Environment Types", detail: "Classifying environments: Fully vs. Partially Observable, Deterministic vs. Stochastic, Episodic vs. Sequential, Static vs. Dynamic, Discrete vs. Continuous, Single vs. Multi-agent." },
+      { name: "Agent Programs", detail: "How abstract agent descriptions are mapped into concrete code executions that match inputs to outputs." }
+    ],
+    duration: "5 Hours",
+    level: "Intermediate"
+  },
+  {
+    id: 3,
+    title: "Module 3: Problem Solving & Search",
+    description: "Study how agents navigate state spaces to find paths to goal states using uninformed and informed search algorithms.",
+    topics: [
+      { name: "State Space Search", detail: "Formulating problems as states, initial states, actions, transition models, goal tests, and path costs." },
+      { name: "Uninformed Search (BFS, DFS, UCS)", detail: "Breadth-First Search (FIFO queue, optimal for step cost), Depth-First Search (LIFO stack), and Uniform Cost Search (priority queue, optimal for arbitrary step cost)." },
+      { name: "Informed Search (A* & Heuristics)", detail: "Using evaluation functions f(n) = g(n) + h(n), where h(n) is an admissible and consistent heuristic estimating cost to goal." }
+    ],
+    duration: "8 Hours",
+    level: "Advanced"
+  },
+  {
+    id: 4,
+    title: "Module 4: Knowledge Representation",
+    description: "Learn how agents store and reason over knowledge using formal mathematical logic to draw valid inferences.",
+    topics: [
+      { name: "Propositional Logic", detail: "Syntax and semantics of propositions, logical connectives, truth tables, and inference patterns like Modus Ponens." },
+      { name: "Predicate Logic (FOL)", detail: "First-Order Logic using objects, relations, functions, and quantifiers (Universal ∀, Existential ∃) for expressive power." },
+      { name: "Inference & Resolution", detail: "Forward chaining, backward chaining, and resolution algorithms to prove statements and update knowledge bases." }
+    ],
+    duration: "6 Hours",
+    level: "Intermediate"
+  },
+  {
+    id: 5,
+    title: "Module 5: Machine Learning Basics",
+    description: "Understand how systems learn from data to make predictions, covering supervised, unsupervised, and deep learning architectures.",
+    topics: [
+      { name: "Supervised Learning", detail: "Training models with labeled datasets. Regression (predicting values) and Classification (predicting classes, e.g., SVMs, Decision Trees)." },
+      { name: "Unsupervised Learning", detail: "Analyzing unlabeled data to uncover hidden structures. Clustering (e.g., K-Means) and Dimensionality Reduction (e.g., PCA)." },
+      { name: "Neural Networks (Deep Learning)", detail: "Perceptrons, multi-layer networks, backpropagation, and deep architectures modeling complex non-linear patterns." }
+    ],
+    duration: "8 Hours",
+    level: "Advanced"
+  },
+  {
+    id: 6,
+    title: "Module 6: Explainable & Responsible AI",
+    description: "Delve into the critical aspects of fairness, safety, and transparency in artificial systems, ensuring ethical AI deployments.",
+    topics: [
+      { name: "Explainability (XAI)", detail: "Techniques (e.g., LIME, SHAP) that help humans interpret, trust, and verify machine learning model outputs." },
+      { name: "Fairness & Bias Mitigations", detail: "Detecting and correcting algorithmic biases originating from training data to avoid discrimination." },
+      { name: "Transparency & Accountability", detail: "Defining who is responsible for AI outcomes and documenting computational models (model cards)." },
+      { name: "AI Ethics & Safety", detail: "Frameworks for designing autonomous systems that protect user privacy, security, and aligned human values." }
+    ],
+    duration: "4 Hours",
+    level: "Beginner"
+  }
+];
+
+const quizzes = [
+  {
+    id: "ai-basics",
+    title: "AI Basics Quiz",
+    category: "Introduction to AI",
+    questions: [
+      {
+        question: "Which of the following describes the PEAS framework for designing an agent?",
+        options: [
+          "Performance, Environment, Actuators, Sensors",
+          "Program, Execution, Actions, Systems",
+          "Perception, Environment, Agency, Software",
+          "Performance, Evaluation, Actuators, State"
+        ],
+        answer: 0,
+        explanation: "PEAS stands for Performance measure, Environment, Actuators, and Sensors. It outlines the characteristics that must be defined to design a rational agent."
+      },
+      {
+        question: "Who is widely considered the father of Artificial Intelligence for organizing the Dartmouth Workshop?",
+        options: [
+          "Alan Turing",
+          "John McCarthy",
+          "Herbert Simon",
+          "Marvin Minsky"
+        ],
+        answer: 1,
+        explanation: "John McCarthy coined the term 'Artificial Intelligence' and organized the famous Dartmouth Workshop in 1956 where AI was established as a field."
+      },
+      {
+        question: "A rational agent is one that...",
+        options: [
+          "Always reaches the perfect outcome.",
+          "Thinks exactly like a human being.",
+          "Selects actions that maximize expected performance given its percept history.",
+          "Possesses an artificial brain mimicking a monkey."
+        ],
+        answer: 2,
+        explanation: "Rationality relies on selecting actions that are expected to maximize the performance measure based on the agent's percept history and built-in knowledge."
+      },
+      {
+        question: "Which environment type is characterized by the agent's next action depending on all previous actions, rather than just the current state?",
+        options: [
+          "Episodic",
+          "Sequential",
+          "Static",
+          "Continuous"
+        ],
+        answer: 1,
+        explanation: "In a sequential environment, the current decision affects future decisions. Episodic environments, in contrast, partition decisions into independent episodes."
+      },
+      {
+        question: "What is an AI Winter?",
+        options: [
+          "A seasonal shift in server farm temperatures.",
+          "A period of reduced funding and interest in AI research due to high promises and low results.",
+          "The storage of AI algorithms in freezing vaults.",
+          "A simulation algorithm for weather forecasting."
+        ],
+        answer: 1,
+        explanation: "AI Winters occur when hype and unmet expectations lead to severe drops in funding, research interest, and commercial support."
+      }
+    ]
+  },
+  {
+    id: "search-algorithms",
+    title: "Search Algorithms Quiz",
+    category: "Problem Solving",
+    questions: [
+      {
+        question: "In state-space search, what is an 'admissible heuristic' in A* search?",
+        options: [
+          "A heuristic that always overestimates the actual cost to reach the goal.",
+          "A heuristic that never overestimates the actual cost to reach the goal.",
+          "A heuristic that is calculated using a random number generator.",
+          "A heuristic that equals the cost from the start node to the current node."
+        ],
+        answer: 1,
+        explanation: "An admissible heuristic h(n) is one that never overestimates the cost to reach the goal from node n. Admissibility guarantees A* will find the optimal solution (with tree search)."
+      },
+      {
+        question: "Which search algorithm expands the shallowest unexpanded node first, utilizing a FIFO queue?",
+        options: [
+          "Depth-First Search (DFS)",
+          "Breadth-First Search (BFS)",
+          "Uniform Cost Search (UCS)",
+          "A* Search"
+        ],
+        answer: 1,
+        explanation: "Breadth-First Search (BFS) expands nodes layer by layer from the root. It uses a First-In-First-Out (FIFO) queue for its frontier."
+      },
+      {
+        question: "What is the time complexity of Breadth-First Search where b is the branching factor and d is the depth of the shallowest solution?",
+        options: [
+          "O(b * d)",
+          "O(b^d)",
+          "O(d^b)",
+          "O(log d)"
+        ],
+        answer: 1,
+        explanation: "BFS has a time and space complexity of O(b^d) because, in the worst case, it must explore and store all nodes up to depth d."
+      },
+      {
+        question: "Which evaluation function represents A* search?",
+        options: [
+          "f(n) = g(n)",
+          "f(n) = h(n)",
+          "f(n) = g(n) + h(n)",
+          "f(n) = g(n) - h(n)"
+        ],
+        answer: 2,
+        explanation: "A* search evaluates nodes by combining g(n), the cost path from start to node n, and h(n), the estimated cost from n to the goal: f(n) = g(n) + h(n)."
+      },
+      {
+        question: "Uniform Cost Search (UCS) is equivalent to BFS under what condition?",
+        options: [
+          "When all step costs are equal.",
+          "When the heuristic value is 0 at all nodes.",
+          "When the branching factor is infinite.",
+          "When searching deep trees."
+        ],
+        answer: 0,
+        explanation: "UCS expands nodes in order of path cost g(n). If all steps have the exact same cost, UCS expands nodes layer-by-layer, rendering it equivalent to BFS."
+      }
+    ]
+  },
+  {
+    id: "intelligent-agents",
+    title: "Intelligent Agents Quiz",
+    category: "Intelligent Agents",
+    questions: [
+      {
+        question: "Which agent type uses a model of 'how the world works' to keep track of unobserved aspects of the current state?",
+        options: [
+          "Simple Reflex Agent",
+          "Model-based Reflex Agent",
+          "Goal-based Agent",
+          "Utility-based Agent"
+        ],
+        answer: 1,
+        explanation: "Model-based reflex agents maintain an internal state (a model) to track elements of the environment that cannot be seen right now."
+      },
+      {
+        question: "What distinguishes a utility-based agent from a goal-based agent?",
+        options: [
+          "A utility-based agent only cares about reaching a single binary goal state.",
+          "A utility-based agent measures 'how happy' or desirable a particular state is using a continuous scale.",
+          "A utility-based agent does not require actuators.",
+          "A utility-based agent is always simpler to code."
+        ],
+        answer: 1,
+        explanation: "While goal-based agents have a binary state of success/failure, utility-based agents map states to real numbers to choose paths that maximize user satisfaction (utility)."
+      },
+      {
+        question: "In a learning agent, which component is responsible for making improvements and deciding how to modify the performance element?",
+        options: [
+          "Critic",
+          "Learning Element",
+          "Problem Generator",
+          "Sensors"
+        ],
+        answer: 1,
+        explanation: "The Learning Element takes feedback from the Critic on how the agent is doing and makes adjustments to the Performance Element to improve outcomes."
+      },
+      {
+        question: "An environment that does not change while the agent is deciding on an action is called:",
+        options: [
+          "Static",
+          "Dynamic",
+          "Discrete",
+          "Deterministic"
+        ],
+        answer: 0,
+        explanation: "A static environment remains unchanged while the agent calculates its next action. A dynamic environment changes over time, independent of agent actions."
+      },
+      {
+        question: "Which of the following is an actuator for an autonomous self-driving car?",
+        options: [
+          "LiDAR Scanner",
+          "Steering Column / Wheel Motor",
+          "Speedometer",
+          "GPS Satellite Receiver"
+        ],
+        answer: 1,
+        explanation: "Actuators are components that let the agent affect its environment. For a car, steering, braking, and accelerating are driven by actuators."
+      }
+    ]
+  },
+  {
+    id: "logic-reasoning",
+    title: "Logic & Reasoning Quiz",
+    category: "Knowledge Representation",
+    questions: [
+      {
+        question: "Which logical connector represents 'implied by' or 'if... then...' relationship?",
+        options: [
+          "Conjunction (∧)",
+          "Disjunction (∨)",
+          "Implication (→)",
+          "Negation (¬)"
+        ],
+        answer: 2,
+        explanation: "Implication (→) represents conditional statements: if P is true, then Q must be true (P → Q)."
+      },
+      {
+        question: "What is the primary limitation of Propositional Logic compared to First-Order Logic?",
+        options: [
+          "Propositional logic is not decidable.",
+          "Propositional logic cannot represent variables, objects, or relationships cleanly, treating everything as true/false facts.",
+          "Propositional logic is slower to compute.",
+          "Propositional logic does not support truth tables."
+        ],
+        answer: 1,
+        explanation: "Propositional logic assumes world facts are either true or false. First-Order Logic adds expressive power by modeling objects, relations, functions, and quantifiers."
+      },
+      {
+        question: "In First-Order Logic, what does the quantifier symbol '∀' stand for?",
+        options: [
+          "Existential Quantifier ('there exists')",
+          "Universal Quantifier ('for all')",
+          "Conjunction Quantifier ('and all')",
+          "Inversion Quantifier ('not all')"
+        ],
+        answer: 1,
+        explanation: "∀ is the Universal Quantifier, asserting that a statement holds true for all objects in the domain of discourse."
+      },
+      {
+        question: "What is Modus Ponens?",
+        options: [
+          "An inference rule: If P and P → Q are true, then Q is true.",
+          "A search algorithm for resolving logic loops.",
+          "A tool to convert predicate logic into truth tables.",
+          "A type of neural network layer."
+        ],
+        answer: 0,
+        explanation: "Modus Ponens is a fundamental rule of inference: from P and P → Q, we can logically deduce Q."
+      },
+      {
+        question: "A sentence is 'valid' (or a tautology) if it is...",
+        options: [
+          "True in at least one model.",
+          "True in all possible models.",
+          "False in all possible models.",
+          "Provable in less than three steps."
+        ],
+        answer: 1,
+        explanation: "A sentence is valid if it is true in every single possible interpretation (model). Example: P ∨ ¬P."
+      }
+    ]
+  }
+];
+
+const resources = [
+  {
+    id: "notes-m1",
+    title: "Lecture Notes: Introduction to AI & PEAS",
+    description: "Detailed course notes explaining historical timelines, rational agents, and specifying environment characteristics.",
+    category: "Lecture Notes",
+    format: "PDF",
+    size: "2.4 MB",
+    downloadUrl: "notes_intro_to_ai.pdf"
+  },
+  {
+    id: "notes-m3",
+    title: "Lecture Notes: State Space Search & A* Algorithm",
+    description: "Rigorous mathematical formulations of search spaces, heuristics admissibility, consistency proofs, and code examples.",
+    category: "Lecture Notes",
+    format: "PDF",
+    size: "3.1 MB",
+    downloadUrl: "notes_search_algorithms.pdf"
+  },
+  {
+    id: "ppt-m5",
+    title: "Class Presentation: Machine Learning Paradigms",
+    description: "Visually rich slides covering Supervised vs Unsupervised learning, Gradient Descent, and neural structures.",
+    category: "PPT Presentations",
+    format: "PPTX",
+    size: "12.8 MB",
+    downloadUrl: "ppt_machine_learning.pptx"
+  },
+  {
+    id: "ppt-m6",
+    title: "Class Presentation: Ethics and Explainable AI",
+    description: "Interactive slides reviewing algorithmic bias, social impacts, LIME/SHAP mechanisms, and EU AI act guidelines.",
+    category: "PPT Presentations",
+    format: "PPTX",
+    size: "8.5 MB",
+    downloadUrl: "ppt_ethics_xai.pptx"
+  },
+  {
+    id: "manual-lab",
+    title: "Lab Manual: Python AI Implementation Guide",
+    description: "Comprehensive step-by-step lab worksheets containing Python implementations for BFS, DFS, A*, and Logic Solvers.",
+    category: "Lab Manuals",
+    format: "PDF",
+    size: "5.7 MB",
+    downloadUrl: "lab_manual_ai.pdf"
+  },
+  {
+    id: "assignment-1",
+    title: "Assignment Sheet 1: PEAS & Agent Design",
+    description: "Home assignment problems modeling automated vacuum cleaners, automated taxi drivers, and chess agents.",
+    category: "Assignment Sheets",
+    format: "DOCX",
+    size: "1.1 MB",
+    downloadUrl: "assignment_1_agents.docx"
+  },
+  {
+    id: "assignment-2",
+    title: "Assignment Sheet 2: Heuristic Analysis & Logic Proofs",
+    description: "Practical problems involving designing admissible heuristics for the 8-puzzle and proving logic arguments using Resolution.",
+    category: "Assignment Sheets",
+    format: "DOCX",
+    size: "1.4 MB",
+    downloadUrl: "assignment_2_search_logic.docx"
+  },
+  {
+    id: "paper-2025",
+    title: "Previous Question Paper: End Semester Exam 2025",
+    description: "Official university examination paper for Artificial Intelligence (MCA / CS Department) from the Academic Session 2024-2025.",
+    category: "Previous Question Papers",
+    format: "PDF",
+    size: "1.8 MB",
+    downloadUrl: "question_paper_2025.pdf"
+  },
+  {
+    id: "paper-2024",
+    title: "Previous Question Paper: Mid Semester Exam 2024",
+    description: "Mid-term examination question paper focused on search space models, depth limits, and propositional logic conversions.",
+    category: "Previous Question Papers",
+    format: "PDF",
+    size: "1.5 MB",
+    downloadUrl: "question_paper_2024_mid.pdf"
+  }
+];
+
+const books = [
+  {
+    id: "book-1",
+    title: "Artificial Intelligence: A Modern Approach",
+    authors: "Stuart Russell & Peter Norvig",
+    edition: "4th Edition",
+    description: "The definitive, most widely-used textbook in AI education. It offers a comprehensive, agent-oriented introduction to the field, spanning search, logic, planning, machine learning, robotics, and ethical impacts.",
+    coverColor: "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
+    mockLink: "https://aima.cs.berkeley.edu/"
+  },
+  {
+    id: "book-2",
+    title: "Deep Learning",
+    authors: "Ian Goodfellow, Yoshua Bengio & Aaron Courville",
+    edition: "1st Edition",
+    description: "An essential academic text for students entering deep learning. It covers mathematical foundations (linear algebra, probability, numerical computation), deep networks, optimization, and advanced architectures.",
+    coverColor: "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)",
+    mockLink: "https://www.deeplearningbook.org/"
+  },
+  {
+    id: "book-3",
+    title: "Explainable AI for Practitioners",
+    authors: "Michael Munn & David Pitman",
+    edition: "1st Edition",
+    description: "A highly practical book focused on building explainable, interpretable machine learning systems. It reviews techniques to unpack black-box models, building trust, and ensuring algorithmic accountability.",
+    coverColor: "linear-gradient(135deg, #11998e 0%, #38ef7d 100%)",
+    mockLink: "https://www.oreilly.com/library/view/explainable-ai-for/9781492095941/"
+  },
+  {
+    id: "book-4",
+    title: "Responsible Artificial Intelligence",
+    authors: "Virginia Dignum",
+    edition: "1st Edition",
+    description: "A crucial text describing how to build AI systems that align with human values. Dignum explores structural methodologies for ethical design, safety constraints, accountability frameworks, and transparency.",
+    coverColor: "linear-gradient(135deg, #fc466b 0%, #3f5efb 100%)",
+    mockLink: "https://link.springer.com/book/10.1007/978-3-030-30371-6"
+  }
+];
+
+const aiApplications = [
+  {
+    id: "app-healthcare",
+    title: "Healthcare Diagnostics",
+    description: "Applying deep neural networks to medical imaging (X-rays, MRIs) to identify tumors, predict patient deterioration, and accelerate drug discovery processes.",
+    icon: "fa-heartbeat",
+    stat: "98% diagnostic accuracy in research tests"
+  },
+  {
+    id: "app-robotics",
+    title: "Intelligent Robotics",
+    description: "Equipping autonomous robotic limbs and factory robots with reinforcement learning and computer vision to maneuver objects, execute complex assemblies, and operate safely alongside humans.",
+    icon: "fa-robot",
+    stat: "80% reduction in manufacturing errors"
+  },
+  {
+    id: "app-assistants",
+    title: "Smart Personal Assistants",
+    description: "Leveraging large language models and speech synthesis to understand context, generate human-like conversations, manage daily agendas, and answer complex research queries.",
+    icon: "fa-microphone",
+    stat: "1B+ active voice assistants globally"
+  },
+  {
+    id: "app-vehicles",
+    title: "Autonomous Vehicles",
+    description: "Fusing sensor data (cameras, LiDAR, radar) in real-time. Driving algorithms build dynamic 3D local maps, predict pedestrian movements, and execute driving paths.",
+    icon: "fa-car",
+    stat: "Level 4 autonomy deployed in select cities"
+  },
+  {
+    id: "app-cybersecurity",
+    title: "Cybersecurity Defense",
+    description: "Employing anomaly detection classifiers to analyze petabytes of network traffic in real-time, instantly blocking zero-day intrusions and mimicking hacker behaviors to patch vulnerabilities.",
+    icon: "fa-shield-alt",
+    stat: "Detects breaches 90% faster than humans"
+  },
+  {
+    id: "app-education",
+    title: "Adaptive Learning Systems",
+    description: "Personalizing educational materials based on student quiz histories and learning speeds. Recommending topics, adjusting difficulty, and supplying targeted hints.",
+    icon: "fa-graduation-cap",
+    stat: "40% increase in course completion rates"
+  }
+];
+
+const facultyMembers = [
+  {
+    name: "Dr. Elena Rostova",
+    role: "Professor & Head, Department of Artificial Intelligence",
+    education: "Ph.D. in Computer Science (Specialization: Heuristic Search & Logic) - Stanford University",
+    bio: "Dr. Rostova has spent over 18 years teaching and researching AI. She has published 50+ papers on heuristic design, agent systems, and automated reasoning. She is a senior member of AAAI and regularly advises government panels on ethical AI guidelines.",
+    research: "Heuristic Optimization, Multi-agent Systems, Theorem Proving.",
+    email: "elena.rostova@university.edu",
+    phone: "+1 (555) 019-2834",
+    office: "Room 402, Academic Block III",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=200&h=200"
+  }
+];
+
+const testimonials = [
+  {
+    id: 1,
+    name: "Rahul Verma",
+    course: "MCA, 4th Semester",
+    text: "The module checklists and quizzes made preparing for my AI end-sem exam incredibly straightforward. The explanation notes for A* search are by far the clearest I've read.",
+    rating: 5,
+    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=100&h=100"
+  },
+  {
+    id: 2,
+    name: "Priya Sharma",
+    course: "B.Tech CSE, 3rd Year",
+    text: "The progress dashboard kept me motivated. Unlocking the 'Search Scholar' badge felt rewarding, and the simulated discussion board is active and supportive.",
+    rating: 5,
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100"
+  },
+  {
+    id: 3,
+    name: "Anand Sen",
+    course: "MCA, 2nd Semester",
+    text: "The download center had exactly what I needed. Finding previous papers and lab manuals in one search-optimized portal saved me days of exam preparation.",
+    rating: 4.8,
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100"
+  }
+];
+
+const faqs = [
+  {
+    question: "Is this website suitable for students with zero prior AI exposure?",
+    answer: "Absolutely. Module 1 acts as a gentle introduction, requiring only basic programming familiarity. Mathematical formulations (in search and logic) build progressively from fundamentals."
+  },
+  {
+    question: "How do I log my completion progress on course modules?",
+    answer: "Go to the Modules tab and read the topics. Once you understand them, check off the checkbox on the module card. Your completion rate will update instantly in the navigation bar and on the Dashboard."
+  },
+  {
+    question: "Can I download lecture resources and lab guides for offline study?",
+    answer: "Yes. The Resources tab (Download Center) allows you to download documents, presentations, lab manuals, and assignments directly to your local system."
+  },
+  {
+    question: "What is the passing score for the interactive quizzes?",
+    answer: "To secure a badge for a quiz, you should answer at least 4 out of 5 questions correctly (80%). You can retake any quiz as many times as needed to master the concept."
+  },
+  {
+    question: "Who should I contact if I have doubts regarding Python implementations in labs?",
+    answer: "You can write a post on the Discussion Forum detailing your code snippet, or reach out directly to Dr. Elena Rostova during office hours (Tues/Thurs 2:00 PM - 4:00 PM)."
+  }
+];
+
+const initialForumPosts = [
+  {
+    id: "post-1",
+    title: "Understanding A* Heuristic Consistency vs Admissibility",
+    author: "Amit Patel (MCA Sem 4)",
+    content: "I'm having a hard time understanding the practical difference between consistency and admissibility. I know admissibility means it never overestimates, but why does consistency require the triangle inequality? Can anyone explain with a simple grid example?",
+    tag: "Problem Solving",
+    upvotes: 12,
+    replies: [
+      {
+        author: "Dr. Elena Rostova (Faculty)",
+        content: "Great question, Amit. Think of admissibility as a promise that h(n) is optimistic: it never estimates more than the true cost to the goal. Consistency is stronger: it says that as you transition from node A to node B with step cost c(A,B), the estimate h(A) should not exceed h(B) + c(A,B). On a 2D grid, straight-line distance is consistent because moving one step closer reduces the remaining straight-line distance by at most that step's length. If a heuristic is consistent, A* on a graph search is guaranteed to find optimal paths without needing to re-open closed nodes.",
+        timestamp: "2 hours ago"
+      },
+      {
+        author: "Vikram Malhotra (B.Tech)",
+        content: "Also, keep in mind that consistency implies admissibility, but an admissible heuristic isn't always consistent (though it's rare to find natural ones that aren't). Check page 96 of Russell & Norvig for the diagram!",
+        timestamp: "1 hour ago"
+      }
+    ],
+    timestamp: "4 hours ago"
+  },
+  {
+    id: "post-2",
+    title: "Tips for PEAS Formulation of an Autonomous Drone",
+    author: "Simran Kaur (MCA Sem 2)",
+    content: "Hi all! I'm attempting the first assignment. For a package delivery drone, would the performance measure only include speed of delivery, or should we factor in safety and battery conservation?",
+    tag: "Intelligent Agents",
+    upvotes: 8,
+    replies: [
+      {
+        author: "Rahul Verma (MCA Sem 4)",
+        content: "Definitely factor in safety! A good PEAS performance measure should balance speed, collision avoidance (safety), remaining battery charge, and package condition on delivery. If it only maximizes speed, the rational drone would fly straight through a tree to save time, destroying the package!",
+        timestamp: "5 hours ago"
+      }
+    ],
+    timestamp: "6 hours ago"
+  },
+  {
+    id: "post-3",
+    title: "Having trouble setting up Prolog for Logic proofs",
+    author: "John Doe (CS Student)",
+    content: "Is Prolog mandatory for Module 4 labs, or can we write logic resolution solvers in Python? Python's syntax is way cleaner for me.",
+    tag: "Knowledge Representation",
+    upvotes: 3,
+    replies: [
+      {
+        author: "Dr. Elena Rostova (Faculty)",
+        content: "You are welcome to implement logic representation in Python. The lab manual provides a blueprint for a propositional logic resolver in Python using standard classes. Prolog is optional for extra credit.",
+        timestamp: "1 day ago"
+      }
+    ],
+    timestamp: "1 day ago"
+  }
+];
+
+
+// ==========================================
+//  2. STATE MANAGER (from state.js)
+// ==========================================
+// js/state.js - State Manager for AI Foundations Portal
+
+
+
+class AppStateManager {
+  constructor() {
+    this.storagePrefix = "ai_foundations_";
+    this.listeners = [];
+    
+    // Initialize default states from localStorage or defaults
+    this.state = {
+      completedModules: this.load("completedModules", []), // array of module IDs
+      completedTopics: this.load("completedTopics", []),   // array of "moduleId-topicIndex" strings
+      quizScores: this.load("quizScores", {}),             // { quizId: score }
+      downloads: this.load("downloads", []),               // array of downloaded resource IDs
+      forumPosts: this.load("forumPosts", null),           // will initialize if null
+      theme: this.load("theme", "light"),                  // "light" or "dark"
+      contrast: this.load("contrast", "normal"),           // "normal" or "high"
+      fontSize: this.load("fontSize", "medium")            // "small", "medium", "large"
+    };
+
+    if (this.state.forumPosts === null) {
+      this.state.forumPosts = initialForumPosts;
+      this.save("forumPosts", this.state.forumPosts);
+    }
+  }
+
+  // LocalStorage Helpers
+  load(key, defaultValue) {
+    try {
+      const stored = localStorage.getItem(this.storagePrefix + key);
+      return stored ? JSON.parse(stored) : defaultValue;
+    } catch (e) {
+      console.warn("localStorage is not available, falling back to in-memory state.", e);
+      return defaultValue;
+    }
+  }
+
+  save(key, value) {
+    try {
+      localStorage.setItem(this.storagePrefix + key, JSON.stringify(value));
+    } catch (e) {
+      console.warn("Failed to write state to localStorage", e);
+    }
+  }
+
+  // Reactivity: register render functions to trigger on state updates
+  subscribe(callback) {
+    this.listeners.push(callback);
+  }
+
+  notify() {
+    this.listeners.forEach(cb => cb(this.state));
+  }
+
+  // State Mutators
+  
+  // Modules completion
+  toggleTopicCompletion(moduleId, topicIndex) {
+    const key = `${moduleId}-${topicIndex}`;
+    const idx = this.state.completedTopics.indexOf(key);
+    if (idx > -1) {
+      this.state.completedTopics.splice(idx, 1);
+    } else {
+      this.state.completedTopics.push(key);
+    }
+    
+    this.save("completedTopics", this.state.completedTopics);
+    
+    // Update overall module completion automatically if all topics checked
+    this.updateModuleCompletionStatus(moduleId);
+    this.notify();
+  }
+
+  updateModuleCompletionStatus(moduleId) {
+    // We can infer module completion based on topics, or handle it as a direct toggle
+    // In our app.js, we'll calculate completion percentage based on total completedTopics vs total topics.
+    // Let's also keep the completedModules list synced
+    this.notify();
+  }
+
+  isTopicCompleted(moduleId, topicIndex) {
+    return this.state.completedTopics.includes(`${moduleId}-${topicIndex}`);
+  }
+
+  getModuleCompletionPercentage(moduleId, totalTopics) {
+    if (totalTopics === 0) return 0;
+    const completedForModule = this.state.completedTopics.filter(key => key.startsWith(`${moduleId}-`)).length;
+    return Math.round((completedForModule / totalTopics) * 100);
+  }
+
+  getOverallCompletionPercentage(modules) {
+    let totalTopics = 0;
+    modules.forEach(m => totalTopics += m.topics.length);
+    if (totalTopics === 0) return 0;
+    const completedCount = this.state.completedTopics.length;
+    return Math.round((completedCount / totalTopics) * 100);
+  }
+
+  // Quiz
+  saveQuizScore(quizId, score) {
+    this.state.quizScores[quizId] = score;
+    this.save("quizScores", this.state.quizScores);
+    this.notify();
+  }
+
+  getQuizScore(quizId) {
+    return this.state.quizScores[quizId] !== undefined ? this.state.quizScores[quizId] : null;
+  }
+
+  // Downloads
+  addDownload(resourceId) {
+    if (!this.state.downloads.includes(resourceId)) {
+      this.state.downloads.push(resourceId);
+      this.save("downloads", this.state.downloads);
+      this.notify();
+    }
+  }
+
+  isDownloaded(resourceId) {
+    return this.state.downloads.includes(resourceId);
+  }
+
+  // Forum
+  addForumPost(title, content, author, tag) {
+    const newPost = {
+      id: `post-${Date.now()}`,
+      title,
+      author,
+      content,
+      tag,
+      upvotes: 0,
+      replies: [],
+      timestamp: "Just now"
+    };
+    this.state.forumPosts.unshift(newPost);
+    this.save("forumPosts", this.state.forumPosts);
+    this.notify();
+    return newPost;
+  }
+
+  addForumReply(postId, author, content) {
+    const post = this.state.forumPosts.find(p => p.id === postId);
+    if (post) {
+      post.replies.push({
+        author,
+        content,
+        timestamp: "Just now"
+      });
+      this.save("forumPosts", this.state.forumPosts);
+      this.notify();
+    }
+  }
+
+  upvotePost(postId) {
+    const post = this.state.forumPosts.find(p => p.id === postId);
+    if (post) {
+      post.upvotes += 1;
+      this.save("forumPosts", this.state.forumPosts);
+      this.notify();
+    }
+  }
+
+  // Settings
+  setTheme(theme) {
+    this.state.theme = theme;
+    this.save("theme", theme);
+    this.notify();
+  }
+
+  setContrast(contrast) {
+    this.state.contrast = contrast;
+    this.save("contrast", contrast);
+    this.notify();
+  }
+
+  setFontSize(size) {
+    this.state.fontSize = size;
+    this.save("fontSize", size);
+    this.notify();
+  }
+}
+
+const stateManager = new AppStateManager();
+
+
+
+// ==========================================
+//  3. CORE APPLICATION LOGIC (from app.js)
+// ==========================================
+// js/app.js — AI Foundations Portal: Main Application Logic
+
+
+
+// ──────────────────────────────────────────────
+//  GLOBAL REFERENCES
+// ──────────────────────────────────────────────
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+// Current quiz session state (in-memory only)
+let activeQuiz = null;
+let activeQuestionIndex = 0;
+let selectedOptionIndex = null;
+let quizScore = 0;
+let quizTimerInterval = null;
+let quizElapsedSeconds = 0;
+
+// Currently viewed forum thread id
+let activeThreadId = null;
+
+// Track which stats have been animated
+let statsAnimated = false;
+
+// ──────────────────────────────────────────────
+//  INITIALIZATION
+// ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme();
+  applyFontSize();
+  applyContrast();
+  renderHomeSections();
+  renderModules();
+  renderResources();
+  renderQuizDashboard();
+  renderForumSidebar();
+  renderDashboard();
+  setupNavigation();
+  setupSearch();
+  setupAccessibility();
+  setupThemeToggle();
+  updateHeaderProgress();
+
+  // Subscribe to state changes for reactive updates
+  stateManager.subscribe(() => {
+    updateHeaderProgress();
+    renderDashboard();
+    renderModules();
+    renderQuizDashboard();
+  });
+});
+
+// ──────────────────────────────────────────────
+//  NAVIGATION & TAB ROUTING
+// ──────────────────────────────────────────────
+function setupNavigation() {
+  // Main nav links
+  $$('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchTab(link.dataset.tab);
+    });
+  });
+
+  // Logo clicks → home
+  $('#logo-nav').addEventListener('click', (e) => {
+    e.preventDefault();
+    switchTab('home');
+  });
+
+  // Footer tab triggers
+  $$('.footer-tab-trigger').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      switchTab(link.dataset.tab);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+
+  // Hero CTA buttons
+  $('#hero-cta-explore').addEventListener('click', () => switchTab('modules'));
+  $('#hero-cta-learn').addEventListener('click', () => switchTab('modules'));
+  const aboutBtn = $('#hero-cta-about');
+  if (aboutBtn) {
+    aboutBtn.addEventListener('click', () => {
+      const el = $('#about-section');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  // Mobile hamburger toggle
+  $('#mobile-toggle').addEventListener('click', () => {
+    const menu = $('#nav-menu-bar');
+    const isOpen = menu.classList.toggle('open');
+    $('#mobile-toggle').setAttribute('aria-expanded', isOpen);
+  });
+}
+
+function switchTab(tabName) {
+  // Hide all views
+  $$('.tab-view').forEach(v => {
+    v.style.display = 'none';
+    v.classList.remove('active');
+  });
+
+  // Show target
+  const target = $(`#view-${tabName}`);
+  if (target) {
+    target.style.display = 'block';
+    // Re-trigger animation
+    target.classList.remove('active');
+    void target.offsetWidth; // reflow
+    target.classList.add('active');
+  }
+
+  // Update active nav link
+  $$('.nav-link').forEach(l => l.classList.remove('active'));
+  const activeLink = $(`.nav-link[data-tab="${tabName}"]`);
+  if (activeLink) activeLink.classList.add('active');
+
+  // Close mobile menu if open
+  $('#nav-menu-bar').classList.remove('open');
+
+  // Trigger stat counters on first home visit
+  if (tabName === 'home' && !statsAnimated) {
+    animateStatCounters();
+  }
+
+  // Hide search results overlay when switching tabs
+  $('#search-results-section').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ──────────────────────────────────────────────
+//  THEME & ACCESSIBILITY CONTROLS
+// ──────────────────────────────────────────────
+function setupThemeToggle() {
+  $('#theme-toggle-btn').addEventListener('click', () => {
+    const current = stateManager.state.theme;
+    const next = current === 'light' ? 'dark' : 'light';
+    stateManager.setTheme(next);
+    applyTheme();
+  });
+}
+
+function applyTheme() {
+  const theme = stateManager.state.theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  const icon = $('#theme-toggle-btn i');
+  icon.className = theme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+}
+
+function setupAccessibility() {
+  const fontSteps = ['small', 'medium', 'large', 'largest'];
+
+  $('#btn-zoom-in').addEventListener('click', () => {
+    const idx = fontSteps.indexOf(stateManager.state.fontSize);
+    if (idx < fontSteps.length - 1) {
+      stateManager.setFontSize(fontSteps[idx + 1]);
+      applyFontSize();
+    }
+  });
+
+  $('#btn-zoom-out').addEventListener('click', () => {
+    const idx = fontSteps.indexOf(stateManager.state.fontSize);
+    if (idx > 0) {
+      stateManager.setFontSize(fontSteps[idx - 1]);
+      applyFontSize();
+    }
+  });
+
+  $('#btn-zoom-reset').addEventListener('click', () => {
+    stateManager.setFontSize('medium');
+    applyFontSize();
+  });
+
+  $('#btn-high-contrast').addEventListener('click', () => {
+    const next = stateManager.state.contrast === 'normal' ? 'high' : 'normal';
+    stateManager.setContrast(next);
+    applyContrast();
+  });
+}
+
+function applyFontSize() {
+  document.body.classList.remove('font-small', 'font-medium', 'font-large', 'font-largest');
+  document.body.classList.add(`font-${stateManager.state.fontSize}`);
+  const map = { small: '85%', medium: '100%', large: '115%', largest: '125%' };
+  $('#btn-zoom-reset').textContent = map[stateManager.state.fontSize] || '100%';
+}
+
+function applyContrast() {
+  if (stateManager.state.contrast === 'high') {
+    document.body.classList.add('high-contrast-mode');
+  } else {
+    document.body.classList.remove('high-contrast-mode');
+  }
+}
+
+// ──────────────────────────────────────────────
+//  HEADER PROGRESS BAR
+// ──────────────────────────────────────────────
+function updateHeaderProgress() {
+  const pct = stateManager.getOverallCompletionPercentage(courseModules);
+  $('#header-progress-bar').style.width = pct + '%';
+  $('#header-progress-text').textContent = `Course Progress: ${pct}%`;
+}
+
+// ──────────────────────────────────────────────
+//  HOME: RENDER STATIC SECTIONS
+// ──────────────────────────────────────────────
+function renderHomeSections() {
+  renderOutcomes();
+  renderApplications();
+  renderBooks();
+  renderFaculty();
+  renderTestimonials();
+  renderFAQs();
+}
+
+// Animated statistics counter
+function animateStatCounters() {
+  statsAnimated = true;
+  $$('.stat-number').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const duration = 2000;
+    const start = Date.now();
+    const tick = () => {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+// Learning Outcomes
+function renderOutcomes() {
+  const outcomes = [
+    { icon: 'fa-robot', text: 'Understand intelligent agents and environments' },
+    { icon: 'fa-route', text: 'Apply search and problem-solving techniques' },
+    { icon: 'fa-brain', text: 'Represent knowledge using formal logic' },
+    { icon: 'fa-chart-bar', text: 'Analyze machine learning fundamentals' },
+    { icon: 'fa-scale-balanced', text: 'Explore ethical and responsible AI' }
+  ];
+  const grid = $('#outcomes-grid');
+  grid.innerHTML = outcomes.map(o => `
+    <div class="outcome-card card-hover">
+      <div class="outcome-icon-box"><i class="fa-solid ${o.icon}"></i></div>
+      <h4>${o.text}</h4>
+    </div>
+  `).join('');
+}
+
+// AI Applications Gallery
+function renderApplications() {
+  const grid = $('#applications-grid');
+  grid.innerHTML = aiApplications.map(app => `
+    <div class="card card-hover app-card">
+      <div class="app-icon"><i class="fa-solid ${app.icon}"></i></div>
+      <h3>${app.title}</h3>
+      <p>${app.description}</p>
+      <span class="app-stat"><i class="fa-solid fa-chart-simple"></i>&nbsp; ${app.stat}</span>
+    </div>
+  `).join('');
+}
+
+// Recommended Books
+function renderBooks() {
+  const grid = $('#books-grid');
+  grid.innerHTML = books.map(b => `
+    <div class="card card-hover book-card">
+      <div class="book-cover" style="background: ${b.coverColor};">
+        <span class="bc-title">${b.title}</span>
+        <span class="bc-footer"><span>${b.authors}</span><span>${b.edition}</span></span>
+      </div>
+      <div class="book-details">
+        <h3>${b.title}</h3>
+        <div class="book-author">${b.authors} — ${b.edition}</div>
+        <p class="book-desc">${b.description}</p>
+        <a href="${b.mockLink}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Resource</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Faculty Section
+function renderFaculty() {
+  const container = $('#faculty-container');
+  container.innerHTML = facultyMembers.map(f => `
+    <div class="card card-glass faculty-card">
+      <img src="${f.avatar}" alt="Photo of ${f.name}" class="faculty-img" loading="lazy">
+      <div class="faculty-desc">
+        <h3>${f.name}</h3>
+        <div class="faculty-role">${f.role}</div>
+        <div class="faculty-edu">${f.education}</div>
+        <p class="faculty-bio">${f.bio}</p>
+        <div class="faculty-interests"><strong>Research Interests:</strong> ${f.research}</div>
+        <div class="faculty-contacts">
+          <span class="fc-item"><i class="fa-solid fa-envelope"></i> ${f.email}</span>
+          <span class="fc-item"><i class="fa-solid fa-phone"></i> ${f.phone}</span>
+          <span class="fc-item"><i class="fa-solid fa-location-dot"></i> ${f.office}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Testimonials
+function renderTestimonials() {
+  const grid = $('#testimonials-grid');
+  grid.innerHTML = testimonials.map(t => {
+    const stars = Array.from({ length: 5 }, (_, i) => {
+      if (i < Math.floor(t.rating)) return '<i class="fa-solid fa-star"></i>';
+      if (i < t.rating) return '<i class="fa-solid fa-star-half-stroke"></i>';
+      return '<i class="fa-regular fa-star"></i>';
+    }).join('');
+    return `
+      <div class="card card-hover testimonial-card">
+        <div class="t-rating">${stars}</div>
+        <p>"${t.text}"</p>
+        <div class="t-author">
+          <img src="${t.avatar}" alt="${t.name}" class="t-avatar" loading="lazy">
+          <div>
+            <span class="t-name">${t.name}</span>
+            <span class="t-course">${t.course}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// FAQ Accordion
+function renderFAQs() {
+  const container = $('#faq-accordion-container');
+  container.innerHTML = faqs.map((f, i) => `
+    <div class="faq-item" data-index="${i}">
+      <button class="faq-question-btn" aria-expanded="false">
+        ${f.question}
+        <i class="fa-solid fa-chevron-down"></i>
+      </button>
+      <div class="faq-answer">${f.answer}</div>
+    </div>
+  `).join('');
+
+  container.addEventListener('click', (e) => {
+    const btn = e.target.closest('.faq-question-btn');
+    if (!btn) return;
+    const item = btn.closest('.faq-item');
+    const answer = item.querySelector('.faq-answer');
+    const isOpen = item.classList.toggle('open');
+    btn.setAttribute('aria-expanded', isOpen);
+    answer.style.maxHeight = isOpen ? answer.scrollHeight + 'px' : '0';
+  });
+}
+
+// ──────────────────────────────────────────────
+//  MODULES: RENDER & TOPIC CHECKBOXES
+// ──────────────────────────────────────────────
+function renderModules() {
+  const container = $('#modules-list-container');
+  let totalTopics = 0;
+  courseModules.forEach(m => totalTopics += m.topics.length);
+  const completedCount = stateManager.state.completedTopics.length;
+
+  $('#module-completed-count').textContent = completedCount;
+  $('#module-total-count').textContent = totalTopics;
+
+  container.innerHTML = courseModules.map(mod => {
+    const pct = stateManager.getModuleCompletionPercentage(mod.id, mod.topics.length);
+    const levelColor = mod.level === 'Beginner' ? '#10b981' : mod.level === 'Intermediate' ? '#f59e0b' : '#ef4444';
+
+    return `
+      <div class="card card-glass module-card" data-module-id="${mod.id}">
+        <div class="module-card-header">
+          <div>
+            <h3>${mod.title}</h3>
+            <div class="module-meta-info">
+              <span><i class="fa-regular fa-clock"></i> ${mod.duration}</span>
+              <span style="color: ${levelColor};"><i class="fa-solid fa-signal"></i> ${mod.level}</span>
+            </div>
+          </div>
+        </div>
+        <p class="module-desc">${mod.description}</p>
+
+        <div class="module-topics-list">
+          ${mod.topics.map((topic, ti) => {
+            const isCompleted = stateManager.isTopicCompleted(mod.id, ti);
+            return `
+              <div class="topic-item-row ${isCompleted ? 'completed' : ''}" data-module-id="${mod.id}" data-topic-index="${ti}">
+                <div class="topic-checkbox" role="checkbox" aria-checked="${isCompleted}" tabindex="0" aria-label="Mark ${topic.name} as completed">
+                  <i class="fa-solid fa-check"></i>
+                </div>
+                <div class="topic-details">
+                  <span class="topic-title-span">${topic.name}</span>
+                  <span class="topic-desc-span">${topic.detail}</span>
+                </div>
+              </div>`;
+          }).join('')}
+        </div>
+
+        <div class="module-progress-section">
+          <div class="module-progress-labels">
+            <span>Module Progress</span>
+            <span>${pct}%</span>
+          </div>
+          <div class="progress-track-bar">
+            <div class="progress-track-fill" style="width: ${pct}%"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Attach checkbox click listeners
+  container.querySelectorAll('.topic-item-row').forEach(row => {
+    const cb = row.querySelector('.topic-checkbox');
+    const handler = () => {
+      const moduleId = parseInt(row.dataset.moduleId);
+      const topicIndex = parseInt(row.dataset.topicIndex);
+      stateManager.toggleTopicCompletion(moduleId, topicIndex);
+    };
+    cb.addEventListener('click', handler);
+    cb.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handler(); } });
+  });
+}
+
+// ──────────────────────────────────────────────
+//  RESOURCES: DOWNLOAD CENTER
+// ──────────────────────────────────────────────
+function renderResources(filterCategory = 'All', searchTerm = '') {
+  const container = $('#resources-grid-container');
+  let filtered = resources;
+
+  if (filterCategory !== 'All') {
+    filtered = filtered.filter(r => r.category === filterCategory);
+  }
+  if (searchTerm) {
+    const q = searchTerm.toLowerCase();
+    filtered = filtered.filter(r => r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q) || r.category.toLowerCase().includes(q));
+  }
+
+  // Update download count
+  $('#download-count').textContent = stateManager.state.downloads.length;
+
+  const formatIcon = (fmt) => {
+    if (fmt === 'PDF') return { icon: 'fa-file-pdf', cls: 'color-pdf' };
+    if (fmt === 'PPTX') return { icon: 'fa-file-powerpoint', cls: 'color-ppt' };
+    return { icon: 'fa-file-word', cls: 'color-docx' };
+  };
+
+  container.innerHTML = filtered.map(r => {
+    const fi = formatIcon(r.format);
+    const isDone = stateManager.isDownloaded(r.id);
+    return `
+      <div class="card card-hover resource-card" data-resource-id="${r.id}">
+        <div class="resource-category-icon ${fi.cls}"><i class="fa-solid ${fi.icon}"></i></div>
+        <h3>${r.title}</h3>
+        <p>${r.description}</p>
+        <div class="resource-meta-footer">
+          <span>${r.format} • ${r.size}</span>
+          <button class="btn ${isDone ? 'btn-success' : 'btn-primary'} btn-sm download-btn" data-id="${r.id}" ${isDone ? 'disabled' : ''}>
+            <i class="fa-solid ${isDone ? 'fa-circle-check' : 'fa-cloud-arrow-down'}"></i> ${isDone ? 'Downloaded' : 'Download'}
+          </button>
+        </div>
+        <div class="download-progress-bar" id="dpb-${r.id}" style="display:${isDone ? 'none' : 'block'};">
+          <div class="download-progress-fill" id="dpf-${r.id}"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Attach download click events
+  container.querySelectorAll('.download-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      if (stateManager.isDownloaded(id)) return;
+      simulateDownload(id, btn);
+    });
+  });
+
+  // Setup filter pills
+  setupResourceFilters();
+  setupResourceSearch();
+}
+
+function simulateDownload(resourceId, btn) {
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Downloading...';
+  const fill = $(`#dpf-${resourceId}`);
+  const bar = $(`#dpb-${resourceId}`);
+  bar.style.display = 'block';
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.random() * 15 + 5;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(interval);
+      stateManager.addDownload(resourceId);
+      btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Downloaded';
+      btn.classList.remove('btn-primary');
+      btn.classList.add('btn-success');
+      setTimeout(() => { bar.style.display = 'none'; }, 500);
+    }
+    fill.style.width = progress + '%';
+  }, 120);
+}
+
+function setupResourceFilters() {
+  const pills = $$('#resources-filter-pills .pill');
+  pills.forEach(pill => {
+    // Remove old listeners by cloning
+    const newPill = pill.cloneNode(true);
+    pill.parentNode.replaceChild(newPill, pill);
+    newPill.addEventListener('click', () => {
+      $$('#resources-filter-pills .pill').forEach(p => p.classList.remove('active'));
+      newPill.classList.add('active');
+      renderResources(newPill.dataset.category, $('#resources-search-input').value);
+    });
+  });
+}
+
+function setupResourceSearch() {
+  const input = $('#resources-search-input');
+  // Remove old listener by replacing element
+  const newInput = input.cloneNode(true);
+  input.parentNode.replaceChild(newInput, input);
+  newInput.addEventListener('input', () => {
+    const activeFilter = $('#resources-filter-pills .pill.active');
+    renderResources(activeFilter ? activeFilter.dataset.category : 'All', newInput.value);
+  });
+}
+
+// ──────────────────────────────────────────────
+//  QUIZZES: DASHBOARD & PLAYER
+// ──────────────────────────────────────────────
+function renderQuizDashboard() {
+  const container = $('#quiz-selection-container');
+  container.innerHTML = quizzes.map(q => {
+    const score = stateManager.getQuizScore(q.id);
+    const hasScore = score !== null;
+    return `
+      <div class="card card-hover quiz-card">
+        <div class="quiz-card-meta">${q.category}</div>
+        <h3>${q.title}</h3>
+        <p>${q.questions.length} questions covering key concepts from the ${q.category} module.</p>
+        ${hasScore ? `<div class="quiz-score-badge"><i class="fa-solid fa-circle-check"></i> Best Score: ${score}/${q.questions.length} (${Math.round(score / q.questions.length * 100)}%)</div>` : ''}
+        <button class="btn btn-primary start-quiz-btn" data-quiz-id="${q.id}"><i class="fa-solid fa-play"></i> ${hasScore ? 'Retake Quiz' : 'Start Quiz'}</button>
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.start-quiz-btn').forEach(btn => {
+    btn.addEventListener('click', () => startQuiz(btn.dataset.quizId));
+  });
+}
+
+function startQuiz(quizId) {
+  activeQuiz = quizzes.find(q => q.id === quizId);
+  if (!activeQuiz) return;
+  activeQuestionIndex = 0;
+  selectedOptionIndex = null;
+  quizScore = 0;
+  quizElapsedSeconds = 0;
+
+  $('#quiz-dashboard').style.display = 'none';
+  $('#quiz-results').style.display = 'none';
+  $('#quiz-player').style.display = 'block';
+  $('#qp-quiz-title').textContent = activeQuiz.title;
+
+  startQuizTimer();
+  renderQuestion();
+}
+
+function startQuizTimer() {
+  clearInterval(quizTimerInterval);
+  quizElapsedSeconds = 0;
+  quizTimerInterval = setInterval(() => {
+    quizElapsedSeconds++;
+    const mins = String(Math.floor(quizElapsedSeconds / 60)).padStart(2, '0');
+    const secs = String(quizElapsedSeconds % 60).padStart(2, '0');
+    $('#qp-time-seconds').textContent = `${mins}:${secs}`;
+  }, 1000);
+}
+
+function renderQuestion() {
+  const q = activeQuiz.questions[activeQuestionIndex];
+  const total = activeQuiz.questions.length;
+  selectedOptionIndex = null;
+
+  // Update progress bar and count
+  const pct = ((activeQuestionIndex) / total) * 100;
+  $('#qp-progress-fill').style.width = pct + '%';
+  $('#qp-current-num').textContent = activeQuestionIndex + 1;
+  $('#qp-question-text').textContent = q.question;
+
+  // Render option buttons
+  const optContainer = $('#qp-options-container');
+  optContainer.innerHTML = q.options.map((opt, i) => `
+    <button class="option-btn" data-index="${i}">${opt}</button>
+  `).join('');
+
+  optContainer.querySelectorAll('.option-btn').forEach(btn => {
+    btn.addEventListener('click', () => selectOption(parseInt(btn.dataset.index)));
+  });
+
+  // Reset UI states
+  $('#qp-feedback-panel').style.display = 'none';
+  $('#btn-submit-answer').style.display = 'inline-flex';
+  $('#btn-submit-answer').disabled = true;
+  $('#btn-next-question').style.display = 'none';
+  $('#btn-finish-quiz').style.display = 'none';
+}
+
+function selectOption(index) {
+  // Do not allow selection after submission
+  if ($('#btn-submit-answer').style.display === 'none') return;
+
+  selectedOptionIndex = index;
+  $$('#qp-options-container .option-btn').forEach(btn => {
+    btn.classList.toggle('selected', parseInt(btn.dataset.index) === index);
+  });
+  $('#btn-submit-answer').disabled = false;
+}
+
+// Submit answer button
+document.addEventListener('DOMContentLoaded', () => {
+  $('#btn-submit-answer').addEventListener('click', submitAnswer);
+  $('#btn-next-question').addEventListener('click', nextQuestion);
+  $('#btn-finish-quiz').addEventListener('click', finishQuiz);
+  $('#btn-quit-quiz').addEventListener('click', quitQuiz);
+  $('#btn-quiz-retry').addEventListener('click', () => startQuiz(activeQuiz.id));
+  $('#btn-quiz-dashboard').addEventListener('click', () => { switchTab('dashboard'); resetQuizUI(); });
+  $('#btn-quiz-back').addEventListener('click', () => resetQuizUI());
+});
+
+function submitAnswer() {
+  const q = activeQuiz.questions[activeQuestionIndex];
+  const correct = q.answer;
+  const isCorrect = selectedOptionIndex === correct;
+  if (isCorrect) quizScore++;
+
+  // Visually mark options
+  $$('#qp-options-container .option-btn').forEach(btn => {
+    const idx = parseInt(btn.dataset.index);
+    btn.classList.remove('selected');
+    if (idx === correct) btn.classList.add('correct');
+    else if (idx === selectedOptionIndex && !isCorrect) btn.classList.add('wrong');
+    btn.style.pointerEvents = 'none';
+  });
+
+  // Show feedback
+  const panel = $('#qp-feedback-panel');
+  panel.style.display = 'block';
+  panel.className = `feedback-panel ${isCorrect ? 'correct' : 'wrong'}`;
+  $('#qp-feedback-status').innerHTML = isCorrect
+    ? '<i class="fa-solid fa-circle-check"></i> Correct!'
+    : '<i class="fa-solid fa-circle-xmark"></i> Incorrect';
+  $('#qp-explanation-text').textContent = q.explanation;
+
+  // Show next or finish
+  $('#btn-submit-answer').style.display = 'none';
+  if (activeQuestionIndex < activeQuiz.questions.length - 1) {
+    $('#btn-next-question').style.display = 'inline-flex';
+  } else {
+    $('#btn-finish-quiz').style.display = 'inline-flex';
+  }
+}
+
+function nextQuestion() {
+  activeQuestionIndex++;
+  renderQuestion();
+}
+
+function finishQuiz() {
+  clearInterval(quizTimerInterval);
+
+  // Save quiz result to state
+  const prevScore = stateManager.getQuizScore(activeQuiz.id);
+  if (prevScore === null || quizScore > prevScore) {
+    stateManager.saveQuizScore(activeQuiz.id, quizScore);
+  }
+
+  const total = activeQuiz.questions.length;
+  const pct = Math.round((quizScore / total) * 100);
+
+  // Show results UI
+  $('#quiz-player').style.display = 'none';
+  $('#quiz-results').style.display = 'block';
+  $('#qr-quiz-name').textContent = activeQuiz.title;
+  $('#qr-score-correct').textContent = quizScore;
+  $('#qr-percentage').textContent = pct + '% Score';
+
+  if (pct >= 80) {
+    $('#qr-feedback-msg').textContent = '🎓 Outstanding! You have earned an academic badge for this quiz!';
+  } else if (pct >= 60) {
+    $('#qr-feedback-msg').textContent = '📚 Good effort! Review the module to improve your score.';
+  } else {
+    $('#qr-feedback-msg').textContent = '🔄 Keep studying! Revisit the relevant module and try again.';
+  }
+}
+
+function quitQuiz() {
+  clearInterval(quizTimerInterval);
+  resetQuizUI();
+}
+
+function resetQuizUI() {
+  activeQuiz = null;
+  $('#quiz-player').style.display = 'none';
+  $('#quiz-results').style.display = 'none';
+  $('#quiz-dashboard').style.display = 'block';
+}
+
+// ──────────────────────────────────────────────
+//  FORUM: THREADS, REPLIES, UPVOTES
+// ──────────────────────────────────────────────
+function renderForumSidebar(tagFilter = 'All', searchTerm = '') {
+  let posts = stateManager.state.forumPosts;
+  if (tagFilter !== 'All') {
+    posts = posts.filter(p => p.tag === tagFilter);
+  }
+  if (searchTerm) {
+    const q = searchTerm.toLowerCase();
+    posts = posts.filter(p => p.title.toLowerCase().includes(q) || p.content.toLowerCase().includes(q));
+  }
+
+  const list = $('#forum-threads-list');
+  list.innerHTML = posts.map(p => `
+    <div class="forum-thread-item ${activeThreadId === p.id ? 'active' : ''}" data-post-id="${p.id}">
+      <h5>${p.title}</h5>
+      <div class="thread-item-meta">
+        <span>${p.tag}</span>
+        <span><i class="fa-solid fa-thumbs-up"></i> ${p.upvotes} · <i class="fa-regular fa-comment"></i> ${p.replies.length}</span>
+      </div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.forum-thread-item').forEach(item => {
+    item.addEventListener('click', () => openThread(item.dataset.postId));
+  });
+}
+
+function openThread(postId) {
+  activeThreadId = postId;
+  const post = stateManager.state.forumPosts.find(p => p.id === postId);
+  if (!post) return;
+
+  // Mark sidebar active item
+  $$('.forum-thread-item').forEach(i => i.classList.toggle('active', i.dataset.postId === postId));
+
+  // Show content
+  $('#fd-empty-state').style.display = 'none';
+  $('#fd-content-state').style.display = 'block';
+
+  $('#fd-tag').textContent = post.tag;
+  $('#fd-time').textContent = post.timestamp;
+  $('#fd-title').textContent = post.title;
+  $('#fd-author').textContent = post.author;
+  $('#fd-body').textContent = post.content;
+  $('#fd-upvote-count').textContent = post.upvotes;
+  $('#fd-replies-count').innerHTML = `<i class="fa-regular fa-comment"></i> ${post.replies.length} Replies`;
+
+  // Render replies
+  const repliesList = $('#fd-replies-list');
+  repliesList.innerHTML = post.replies.map(r => `
+    <div class="reply-card">
+      <div class="reply-header">
+        <span class="reply-author">${r.author}</span>
+        <span>${r.timestamp}</span>
+      </div>
+      <div class="reply-content">${r.content}</div>
+    </div>
+  `).join('');
+}
+
+// Forum event setups (run once on DOMContentLoaded)
+document.addEventListener('DOMContentLoaded', () => {
+  // Tag filter pills
+  $$('.forum-tag-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      $$('.forum-tag-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      renderForumSidebar(pill.dataset.tag, $('#forum-search-input').value);
+    });
+  });
+
+  // Forum search
+  $('#forum-search-input').addEventListener('input', (e) => {
+    const activeTag = $('.forum-tag-pill.active');
+    renderForumSidebar(activeTag ? activeTag.dataset.tag : 'All', e.target.value);
+  });
+
+  // Upvote button
+  $('#btn-upvote-thread').addEventListener('click', () => {
+    if (!activeThreadId) return;
+    stateManager.upvotePost(activeThreadId);
+    openThread(activeThreadId);
+    renderForumSidebar(
+      ($('.forum-tag-pill.active') || {}).dataset?.tag || 'All',
+      $('#forum-search-input').value
+    );
+  });
+
+  // Reply form
+  $('#forum-reply-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!activeThreadId) return;
+    const author = $('#reply-author-input').value.trim();
+    const content = $('#reply-content-input').value.trim();
+    if (!author || !content) return;
+    stateManager.addForumReply(activeThreadId, author, content);
+    $('#reply-author-input').value = '';
+    $('#reply-content-input').value = '';
+    openThread(activeThreadId);
+    renderForumSidebar(
+      ($('.forum-tag-pill.active') || {}).dataset?.tag || 'All',
+      $('#forum-search-input').value
+    );
+  });
+
+  // Create new thread modal
+  $('#btn-create-thread').addEventListener('click', () => {
+    $('#forum-modal').style.display = 'flex';
+  });
+  $('#btn-modal-close').addEventListener('click', () => {
+    $('#forum-modal').style.display = 'none';
+  });
+  $('#btn-modal-cancel').addEventListener('click', () => {
+    $('#forum-modal').style.display = 'none';
+  });
+
+  // New thread form submission
+  $('#new-thread-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const author = $('#nt-author').value.trim();
+    const title = $('#nt-title').value.trim();
+    const tag = $('#nt-tag').value;
+    const content = $('#nt-content').value.trim();
+    if (!author || !title || !content) return;
+
+    const newPost = stateManager.addForumPost(title, content, author, tag);
+    $('#forum-modal').style.display = 'none';
+    $('#new-thread-form').reset();
+    renderForumSidebar('All', '');
+    $$('.forum-tag-pill').forEach(p => p.classList.remove('active'));
+    $('.forum-tag-pill[data-tag="All"]').classList.add('active');
+    openThread(newPost.id);
+  });
+});
+
+// ──────────────────────────────────────────────
+//  DASHBOARD: PROGRESS, BADGES, QUIZ CHARTS
+// ──────────────────────────────────────────────
+function renderDashboard() {
+  // Overall progress radial bar
+  const pct = stateManager.getOverallCompletionPercentage(courseModules);
+  const circumference = 2 * Math.PI * 40; // r=40
+  const offset = circumference - (pct / 100) * circumference;
+  const radialBar = $('#db-radial-bar');
+  if (radialBar) {
+    radialBar.style.strokeDasharray = circumference;
+    radialBar.style.strokeDashoffset = offset;
+  }
+  const progressVal = $('#db-progress-val');
+  if (progressVal) progressVal.textContent = pct + '%';
+
+  // Quiz count
+  const quizCount = Object.keys(stateManager.state.quizScores).length;
+  const el = $('#db-quizzes-count');
+  if (el) el.textContent = quizCount;
+
+  // Downloads count
+  const dlEl = $('#db-downloads-count');
+  if (dlEl) dlEl.textContent = stateManager.state.downloads.length;
+
+  // Forum activity
+  const forumActivity = $('#db-forum-activity');
+  if (forumActivity) {
+    const postCount = stateManager.state.forumPosts.length;
+    forumActivity.textContent = postCount > 5 ? 'High' : postCount > 3 ? 'Moderate' : 'Low';
+  }
+
+  // Quiz performance bars
+  const chartList = $('#db-quiz-chart-list');
+  if (chartList) {
+    chartList.innerHTML = quizzes.map(q => {
+      const score = stateManager.getQuizScore(q.id);
+      const total = q.questions.length;
+      const scorePct = score !== null ? Math.round((score / total) * 100) : 0;
+      const isCompleted = score !== null;
+      const isSuccess = scorePct >= 80;
+      return `
+        <div class="quiz-bar-item">
+          <div class="qbi-header">
+            <span class="qbi-name">${q.title}</span>
+            <span class="qbi-score ${isCompleted ? 'completed' : ''}">${isCompleted ? score + '/' + total + ' (' + scorePct + '%)' : 'Not Attempted'}</span>
+          </div>
+          <div class="qbi-track">
+            <div class="qbi-fill ${isSuccess ? 'success' : ''}" style="width: ${scorePct}%"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  // Badges
+  renderBadges();
+}
+
+function renderBadges() {
+  const badgesGrid = $('#db-badges-grid');
+  if (!badgesGrid) return;
+
+  const badges = [
+    {
+      id: 'first-topic',
+      title: 'First Step',
+      desc: 'Complete your first topic in any module',
+      icon: 'fa-shoe-prints',
+      unlocked: stateManager.state.completedTopics.length >= 1
+    },
+    {
+      id: 'module-master',
+      title: 'Module Master',
+      desc: 'Complete all topics in any single module',
+      icon: 'fa-medal',
+      unlocked: courseModules.some(m =>
+        stateManager.getModuleCompletionPercentage(m.id, m.topics.length) === 100
+      )
+    },
+    {
+      id: 'quiz-taker',
+      title: 'Quiz Taker',
+      desc: 'Attempt your first quiz',
+      icon: 'fa-clipboard-question',
+      unlocked: Object.keys(stateManager.state.quizScores).length >= 1
+    },
+    {
+      id: 'search-scholar',
+      title: 'Search Scholar',
+      desc: 'Score 80%+ on the Search Algorithms Quiz',
+      icon: 'fa-magnifying-glass-chart',
+      unlocked: (stateManager.getQuizScore('search-algorithms') || 0) >= 4
+    },
+    {
+      id: 'logic-guru',
+      title: 'Logic Guru',
+      desc: 'Score 80%+ on the Logic & Reasoning Quiz',
+      icon: 'fa-brain',
+      unlocked: (stateManager.getQuizScore('logic-reasoning') || 0) >= 4
+    },
+    {
+      id: 'ai-pioneer',
+      title: 'AI Pioneer',
+      desc: 'Score 80%+ on the AI Basics Quiz',
+      icon: 'fa-rocket',
+      unlocked: (stateManager.getQuizScore('ai-basics') || 0) >= 4
+    },
+    {
+      id: 'agent-expert',
+      title: 'Agent Expert',
+      desc: 'Score 80%+ on the Intelligent Agents Quiz',
+      icon: 'fa-user-astronaut',
+      unlocked: (stateManager.getQuizScore('intelligent-agents') || 0) >= 4
+    },
+    {
+      id: 'completionist',
+      title: 'Completionist',
+      desc: 'Complete all course topics across all 6 modules',
+      icon: 'fa-crown',
+      unlocked: stateManager.getOverallCompletionPercentage(courseModules) === 100
+    },
+    {
+      id: 'librarian',
+      title: 'Librarian',
+      desc: 'Download 5 or more resources',
+      icon: 'fa-book-open-reader',
+      unlocked: stateManager.state.downloads.length >= 5
+    }
+  ];
+
+  badgesGrid.innerHTML = badges.map(b => `
+    <div class="badge-row ${b.unlocked ? 'unlocked' : ''}">
+      <div class="badge-icon-wrap"><i class="fa-solid ${b.icon}"></i></div>
+      <div class="badge-info-details">
+        <span class="badge-title">${b.title}</span>
+        <span class="badge-desc">${b.desc}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ──────────────────────────────────────────────
+//  GLOBAL SEARCH
+// ──────────────────────────────────────────────
+function setupSearch() {
+  const input = $('#global-search-input');
+  const clearBtn = $('#global-search-clear');
+  const resultsSection = $('#search-results-section');
+
+  if (!input) return;
+
+  input.addEventListener('input', (e) => {
+    const q = e.target.value.trim();
+    clearBtn.style.display = q ? 'flex' : 'none';
+    if (q.length >= 2) {
+      performGlobalSearch(q);
+    } else {
+      resultsSection.style.display = 'none';
+    }
+  });
+
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    clearBtn.style.display = 'none';
+    resultsSection.style.display = 'none';
+  });
+
+  $('#close-search-results').addEventListener('click', () => {
+    resultsSection.style.display = 'none';
+    input.value = '';
+    clearBtn.style.display = 'none';
+  });
+}
+
+function performGlobalSearch(query) {
+  const q = query.toLowerCase();
+  const results = [];
+
+  // Search modules
+  courseModules.forEach(m => {
+    if (m.title.toLowerCase().includes(q) || m.description.toLowerCase().includes(q)) {
+      results.push({ type: 'Module', title: m.title, snippet: m.description.substring(0, 120) + '...', tab: 'modules', icon: 'fa-book-open' });
+    }
+    m.topics.forEach(t => {
+      if (t.name.toLowerCase().includes(q) || t.detail.toLowerCase().includes(q)) {
+        results.push({ type: 'Topic', title: t.name, snippet: t.detail.substring(0, 120) + '...', tab: 'modules', icon: 'fa-circle-dot' });
+      }
+    });
+  });
+
+  // Search resources
+  resources.forEach(r => {
+    if (r.title.toLowerCase().includes(q) || r.description.toLowerCase().includes(q)) {
+      results.push({ type: 'Resource', title: r.title, snippet: r.description.substring(0, 120) + '...', tab: 'resources', icon: 'fa-cloud-arrow-down' });
+    }
+  });
+
+  // Search FAQs
+  faqs.forEach(f => {
+    if (f.question.toLowerCase().includes(q) || f.answer.toLowerCase().includes(q)) {
+      results.push({ type: 'FAQ', title: f.question, snippet: f.answer.substring(0, 120) + '...', tab: 'home', icon: 'fa-circle-question' });
+    }
+  });
+
+  // Search books
+  books.forEach(b => {
+    if (b.title.toLowerCase().includes(q) || b.authors.toLowerCase().includes(q)) {
+      results.push({ type: 'Book', title: b.title, snippet: `${b.authors} — ${b.edition}`, tab: 'home', icon: 'fa-book' });
+    }
+  });
+
+  // Search quizzes
+  quizzes.forEach(qz => {
+    if (qz.title.toLowerCase().includes(q) || qz.category.toLowerCase().includes(q)) {
+      results.push({ type: 'Quiz', title: qz.title, snippet: `${qz.questions.length} questions in ${qz.category}`, tab: 'quizzes', icon: 'fa-square-poll-horizontal' });
+    }
+  });
+
+  // Render
+  const section = $('#search-results-section');
+  const container = $('#search-results-container');
+  const count = $('#search-match-count');
+
+  count.textContent = results.length;
+  section.style.display = 'block';
+
+  if (results.length === 0) {
+    container.innerHTML = '<p class="text-center" style="padding:30px;color:var(--text-secondary);">No matches found. Try a different search term.</p>';
+    return;
+  }
+
+  container.innerHTML = results.map(r => `
+    <div class="card card-hover search-result-card" data-tab="${r.tab}" style="cursor:pointer;">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px;">
+        <i class="fa-solid ${r.icon}" style="font-size:1.3em;color:var(--accent-secondary);"></i>
+        <span style="font-size:0.75em;font-weight:700;text-transform:uppercase;color:var(--text-secondary);">${r.type}</span>
+      </div>
+      <h4 style="font-size:1.05em;margin-bottom:6px;">${r.title}</h4>
+      <p style="font-size:0.85em;color:var(--text-secondary);">${r.snippet}</p>
+    </div>
+  `).join('');
+
+  container.querySelectorAll('.search-result-card').forEach(card => {
+    card.addEventListener('click', () => {
+      switchTab(card.dataset.tab);
+      section.style.display = 'none';
+      $('#global-search-input').value = '';
+      $('#global-search-clear').style.display = 'none';
+    });
+  });
+}
+
+// Trigger initial stat animation for home view after a short delay
+setTimeout(() => { if (!statsAnimated) animateStatCounters(); }, 800);
+
+
+</script>
+</body>
+</html>
